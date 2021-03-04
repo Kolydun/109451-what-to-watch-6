@@ -1,7 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {useHistory, Link} from 'react-router-dom';
 
 const MoviePage = () => {
+
+  const history = useHistory();
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -73,19 +76,27 @@ const MoviePage = () => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  className="btn btn--play movie-card__button"
+                  type="button"
+                  onClick={() => history.push(`/player/:1`)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button
+                  className="btn btn--list movie-card__button"
+                  type="button"
+                  onClick={() => history.push(`/mylist`)}
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn movie-card__button">Add review</a>
+                <Link to={`/films/1/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
           </div>

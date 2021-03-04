@@ -8,16 +8,17 @@ import MyList from "../my-list/my-list";
 import MoviePage from "../movie-page/movie-page";
 import AddReview from "../add-reviews/add-reviews";
 import PageNotFound from "../../page-not-found/page-not-found";
+import MoviesList from "../movies-list/movies-list";
 
 const App = (props) => {
-  const {promoName, promoGenre, promoRelease, movieCards} = props;
+  const {promoName, promoGenre, promoRelease, generatedFilms} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <MainPage
-            movieCards={movieCards}
+            moviesList = {<MoviesList generatedFilms={generatedFilms} />}
             promoName={promoName}
             promoGenre={promoGenre}
             promoRelease={promoRelease}
@@ -27,16 +28,22 @@ const App = (props) => {
           <SignIn />
         </Route>
         <Route exact path="/mylist">
-          <MyList />
+          <MyList
+            moviesList = {<MoviesList generatedFilms={generatedFilms} />}
+          />
         </Route>
         <Route exact path="/player/:id?">
-          <Player />
+          <Player
+            generatedFilms={generatedFilms}
+          />
         </Route>
         <Route exact path="/films/:id?">
           <MoviePage />
         </Route>
         <Route exact path="/films/:id?/review">
-          <AddReview />
+          <AddReview
+            generatedFilms={generatedFilms}
+          />
         </Route>
         <Route>
           <PageNotFound />
@@ -47,7 +54,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  movieCards: PropTypes.array.isRequired,
+  generatedFilms: PropTypes.array.isRequired,
   promoName: PropTypes.string.isRequired,
   promoGenre: PropTypes.string.isRequired,
   promoRelease: PropTypes.string.isRequired

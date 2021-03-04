@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
-const Player = () => {
+const Player = (props) => {
+
+  const {generatedFilms} = props;
+  const {videoLink} = generatedFilms[0];
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -37,7 +42,8 @@ const Player = () => {
       </div>
 
       <div className="player">
-        <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+        <video src={videoLink} className="player__video" poster="img/player-poster.jpg">
+        </video>
 
         <button type="button" className="player__exit">Exit</button>
 
@@ -71,5 +77,10 @@ const Player = () => {
     </React.Fragment>
   );
 };
+
+Player.propTypes = {
+  generatedFilms: PropTypes.array.isRequired,
+};
+
 
 export default Player;
