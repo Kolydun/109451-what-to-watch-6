@@ -15,7 +15,7 @@ const MoviesList = (props) => {
         <MovieCard
           key={nanoid()}
           generatedFilm={generatedFilm}
-          stateFunction={() => {
+          trackActiveFilmId={() => {
             setActiveFilmId((prevFilmId) => ({
               ...prevFilmId,
               activeFilmId: generatedFilm.id
