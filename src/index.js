@@ -1,26 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./components/app/app";
-import MovieCard from "./components/movie-card/movie-card";
+import {generateFilmCard} from "./mocks/films";
 
 const promoMovieData = {
   name: `The Grand Budapest Hotel`,
   release: `2014`,
   genre: `Drama`
 };
-const cardsNumber = 20;
-const movieCardsArray = [];
 
-for (let i = 0; i < cardsNumber; i++) {
-  movieCardsArray[i] = <MovieCard/>;
-}
+const FILM_CARDS_NUMBER = 8;
+const filmCards = new Array(FILM_CARDS_NUMBER).fill().map(generateFilmCard);
 
 ReactDOM.render(
     <App
-      movieCards = {movieCardsArray}
       promoName = {promoMovieData.name}
       promoGenre = {promoMovieData.genre}
       promoRelease = {promoMovieData.release}
+      generatedFilms = {filmCards}
     />,
     document.querySelector(`#root`),
 );

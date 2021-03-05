@@ -1,10 +1,11 @@
 import React from 'react';
-import MovieCard from '../movie-card/movie-card';
 import PropTypes from 'prop-types';
+import {useHistory} from 'react-router-dom';
 
 const MainPage = (props) => {
 
-  const {movieCards, promoName, promoGenre, promoRelease} = props;
+  const {moviesList, promoName, promoGenre, promoRelease} = props;
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -45,13 +46,21 @@ const MainPage = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  className="btn btn--play movie-card__button"
+                  type="button"
+                  onClick={() => history.push(`/player/:1`)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button
+                  className="btn btn--list movie-card__button"
+                  type="button"
+                  onClick={() => history.push(`/mylist`)}
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -101,7 +110,7 @@ const MainPage = (props) => {
           </ul>
 
           <div className="catalog__movies-list">
-            {movieCards.map((movieCard, i) => <MovieCard key={i} movieCard={movieCard}/>)}
+            {moviesList}
           </div>
 
           <div className="catalog__more">
@@ -128,7 +137,7 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
-  movieCards: PropTypes.array.isRequired,
+  moviesList: PropTypes.element.isRequired,
   promoName: PropTypes.string.isRequired,
   promoGenre: PropTypes.string.isRequired,
   promoRelease: PropTypes.string.isRequired
