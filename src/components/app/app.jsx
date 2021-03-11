@@ -34,7 +34,7 @@ const App = (props) => {
         </Route>
         <Route exact path="/player/:id?">
           <Player
-            generatedFilms={generatedFilms}
+            generatedFilm={generatedFilms[0]}
           />
         </Route>
         <Route exact path="/films/:id?">
