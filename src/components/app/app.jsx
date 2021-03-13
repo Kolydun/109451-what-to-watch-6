@@ -29,16 +29,19 @@ const App = (props) => {
         </Route>
         <Route exact path="/mylist">
           <MyList
-            moviesList = {<MoviesList generatedFilms={generatedFilms} />}
+            moviesList={<MoviesList generatedFilms={generatedFilms}/>}
           />
         </Route>
         <Route exact path="/player/:id?">
           <Player
-            generatedFilm={generatedFilms[0]}
+            videoLink={generatedFilms[0].videoLink}
           />
         </Route>
         <Route exact path="/films/:id?">
-          <MoviePage />
+          <MoviePage
+            generatedFilm={generatedFilms[0]}
+            generatedFilms={generatedFilms}
+          />
         </Route>
         <Route exact path="/films/:id?/review">
           <AddReview
@@ -46,7 +49,7 @@ const App = (props) => {
           />
         </Route>
         <Route>
-          <PageNotFound />
+          <PageNotFound/>
         </Route>
       </Switch>
     </BrowserRouter>

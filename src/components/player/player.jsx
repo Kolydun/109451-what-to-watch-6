@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 
 const Player = (props) => {
 
-  const {generatedFilm} = props;
-  const {videoLink} = generatedFilm.videoLink;
+  const {videoLink} = props;
 
   return (
     <React.Fragment>
@@ -42,7 +41,7 @@ const Player = (props) => {
       </div>
 
       <div className="player">
-        <video src={videoLink} className="player__video" poster="img/player-poster.jpg">
+        <video src={videoLink} className="player__video" poster="img/player-poster.jpg" controls>
           <source src={videoLink} type="video/webm"/>
         </video>
 
@@ -80,7 +79,7 @@ const Player = (props) => {
 };
 
 Player.propTypes = {
-  generatedFilm: PropTypes.object.isRequired,
+  videoLink: PropTypes.string.isRequired,
 };
 
 

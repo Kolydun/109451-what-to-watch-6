@@ -58,7 +58,7 @@ const MovieCard = (props) => {
 
 MovieCard.propTypes = {
   generatedFilm: PropTypes.object.isRequired,
-  trackActiveFilmId: PropTypes.func.isRequired
+  trackActiveFilmId: PropTypes.func
 };
 
 export default MovieCard;

@@ -107,15 +107,8 @@ const createGenre = () => {
     ` Drama`,
     ` Fantasy`,
   ];
-  let randomGenresSet = new Set();
-  let counter = getRandomInteger(1, 2);
-  for (let i = 0; i < counter; i++) {
-    randomGenresSet.add(genres[getRandomInteger(0, genres.length - 1)]);
-  }
 
-  const randomGenres = Array.from(randomGenresSet);
-
-  return randomGenres;
+  return genres[getRandomInteger(0, genres.length - 1)];
 };
 
 const createReleaseDate = () => {
@@ -131,10 +124,8 @@ const createReleaseDate = () => {
 
   const randomYearIndex = getRandomInteger(0, filmYears.length - 1);
   const randomYear = filmYears[randomYearIndex];
-  const randomDay = getRandomInteger(1, 31);
-  const randomMonth = getRandomInteger(1, 12);
 
-  return dayjs(randomMonth + `/` + randomDay + `/` + randomYear).format(`D MMMM YYYY`);
+  return dayjs(randomYear).format(`YYYY`);
 };
 
 const createComment = () => {
@@ -145,7 +136,8 @@ const createComment = () => {
       name: `User` + ` ` + getRandomInteger(1, 100)
     },
     rating: getRandomInteger(1, 10),
-    comment: `Текст-заглушка, который будет заменен позже`
+    comment: `Текст-заглушка, который будет заменен позже`,
+    date: dayjs().format(`MMMM DD, YYYY`)
   };
 };
 
