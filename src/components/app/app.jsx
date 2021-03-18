@@ -29,7 +29,7 @@ const App = (props) => {
         </Route>
         <Route exact path="/mylist">
           <MyList
-            moviesList={<MoviesList generatedFilms={generatedFilms}/>}
+            moviesList={<MoviesList moviesList={generatedFilms}/>}
           />
         </Route>
         <Route exact path="/player/:id?">
