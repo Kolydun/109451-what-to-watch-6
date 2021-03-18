@@ -18,7 +18,7 @@ const App = (props) => {
       <Switch>
         <Route exact path="/">
           <MainPage
-            moviesList = {<MoviesList generatedFilms={generatedFilms} />}
+            generatedFilms={generatedFilms}
             promoName={promoName}
             promoGenre={promoGenre}
             promoRelease={promoRelease}
