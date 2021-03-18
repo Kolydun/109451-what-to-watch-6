@@ -100,12 +100,15 @@ const createRandomActors = () => {
 
 const createGenre = () => {
   const genres = [
-    ` Action`,
-    ` Comedy`,
-    ` Adventure`,
-    ` Crime`,
-    ` Drama`,
-    ` Fantasy`,
+    `Documentary`,
+    `Comedy`,
+    `Horror`,
+    `Crime`,
+    `Drama`,
+    `Sci-Fi`,
+    `Romance`,
+    `Kids & Family`,
+    `Thrillers`,
   ];
 
   return genres[getRandomInteger(0, genres.length - 1)];

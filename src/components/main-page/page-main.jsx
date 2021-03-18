@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
+import MoviesList from "../movies-list/movies-list";
+import Filters from "../filters/filters";
+import {nanoid} from "nanoid";
+import {connect} from 'react-redux';
 
 const MainPage = (props) => {
 
-  const {moviesList, promoName, promoGenre, promoRelease} = props;
+  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList} = props;
   const history = useHistory();
+  const uniqueFiltersNames = [`All films`, ...new Set(initialMoviesList.map((movie) => movie.genre))];
 
   return (
     <React.Fragment>
@@ -77,40 +82,16 @@ const MainPage = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
+            {uniqueFiltersNames.map((name) =>
+              <Filters
+                key={nanoid()}
+                filterName={name}
+              />
+            )}
           </ul>
 
           <div className="catalog__movies-list">
-            {moviesList}
+            <MoviesList moviesList={moviesList} />
           </div>
 
           <div className="catalog__more">
@@ -136,11 +117,17 @@ const MainPage = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+  initialMoviesList: state.initialMoviesList,
+});
+
 MainPage.propTypes = {
-  moviesList: PropTypes.element.isRequired,
   promoName: PropTypes.string.isRequired,
   promoGenre: PropTypes.string.isRequired,
-  promoRelease: PropTypes.string.isRequired
+  promoRelease: PropTypes.string.isRequired,
+  moviesList: PropTypes.array.isRequired,
+  initialMoviesList: PropTypes.array.isRequired,
 };
 
-export default MainPage;
+export default connect(mapStateToProps, null)(MainPage);

@@ -5,20 +5,20 @@ import {nanoid} from "nanoid";
 
 const MoviesList = (props) => {
 
-  const {generatedFilms} = props;
+  const {moviesList} = props;
   const filmId = useState({});
   const setActiveFilmId = filmId[1];
 
   return (
     <React.Fragment>
-      {generatedFilms.map((generatedFilm) =>
+      {moviesList.map((movie) =>
         <MovieCard
           key={nanoid()}
-          generatedFilm={generatedFilm}
+          generatedFilm={movie}
           trackActiveFilmId={() => {
             setActiveFilmId((prevFilmId) => ({
               ...prevFilmId,
-              activeFilmId: generatedFilm.id
+              activeFilmId: movie.id
             }));
           }}
         />)}
@@ -27,8 +27,7 @@ const MoviesList = (props) => {
 };
 
 MoviesList.propTypes = {
-  generatedFilms: PropTypes.array.isRequired,
+  moviesList: PropTypes.array.isRequired,
 };
-
 
 export default MoviesList;
