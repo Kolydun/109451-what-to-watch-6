@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import MoviesList from "../movies-list/movies-list";
 import Filters from "../filters/filters";
+import ShowMore from "../show-more/show-more";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
+import {ActionCreator} from "../../store/action";
 
 const MainPage = (props) => {
 
-  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList} = props;
+  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList, renderedMovies, onPageChange} = props;
   const history = useHistory();
   const uniqueFiltersNames = [`All films`, ...new Set(initialMoviesList.map((movie) => movie.genre))];
 
@@ -54,7 +56,10 @@ const MainPage = (props) => {
                 <button
                   className="btn btn--play movie-card__button"
                   type="button"
-                  onClick={() => history.push(`/player/:1`)}
+                  onClick={() => {
+                    onPageChange();
+                    history.push(`/player/:1`);
+                  }}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
@@ -64,7 +69,10 @@ const MainPage = (props) => {
                 <button
                   className="btn btn--list movie-card__button"
                   type="button"
-                  onClick={() => history.push(`/mylist`)}
+                  onClick={() => {
+                    onPageChange();
+                    history.push(`/mylist`);
+                  }}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -94,9 +102,10 @@ const MainPage = (props) => {
             <MoviesList moviesList={moviesList} />
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {moviesList.length > renderedMovies
+            ? <ShowMore/>
+            : ``}
+
         </section>
 
         <footer className="page-footer">
@@ -120,6 +129,13 @@ const MainPage = (props) => {
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
   initialMoviesList: state.initialMoviesList,
+  renderedMovies: state.renderedMovies
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onPageChange() {
+    dispatch(ActionCreator.resetState());
+  },
 });
 
 MainPage.propTypes = {
@@ -128,6 +144,8 @@ MainPage.propTypes = {
   promoRelease: PropTypes.string.isRequired,
   moviesList: PropTypes.array.isRequired,
   initialMoviesList: PropTypes.array.isRequired,
+  renderedMovies: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

@@ -1,7 +1,8 @@
 export const ActionType = {
   CHANGE_GENRE: `movies/change-genre`,
   FILTER_MOVIES: `movies/filter-movies`,
-  RESET_FILTERS: `movies/reset-filters`,
+  RESET_STATE: `movies/reset-filters`,
+  INCREASE_RENDERED_FILMS_COUNT: `movies/load-more-count-increase`
 };
 
 export const ActionCreator = {
@@ -12,7 +13,10 @@ export const ActionCreator = {
   filterMovies: () => ({
     type: ActionType.FILTER_MOVIES,
   }),
-  resetFilters: () => ({
-    type: ActionType.RESET_FILTERS,
+  resetState: () => ({
+    type: ActionType.RESET_STATE,
+  }),
+  increaseRenderedFilmsCount: () => ({
+    type: ActionType.INCREASE_RENDERED_FILMS_COUNT,
   })
 };
