@@ -8,7 +8,7 @@ import Reviews from "../reviews/reviews";
 const Tabs = (props) => {
 
   const [whichTab, setWhichTab] = useState(`overview`);
-  const {generatedFilm} = props;
+  const {movie} = props;
 
   return (
     <React.Fragment>
@@ -47,16 +47,16 @@ const Tabs = (props) => {
           </li>
         </ul>
       </nav>
-      {whichTab === `overview` && <Overview generatedFilm={generatedFilm}/>}
-      {whichTab === `details` && <Details generatedFilm={generatedFilm}/>}
-      {whichTab === `reviews` && <Reviews generatedFilm={generatedFilm}/>}
+      {whichTab === `overview` && <Overview movie={movie}/>}
+      {whichTab === `details` && <Details movie={movie}/>}
+      {whichTab === `reviews` && <Reviews movie={movie}/>}
 
     </React.Fragment>
   );
 };
 
 Tabs.propTypes = {
-  generatedFilm: PropTypes.object.isRequired
+  movie: PropTypes.object.isRequired
 };
 
 

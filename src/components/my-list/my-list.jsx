@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import MoviesList from "../movies-list/movies-list";
+import {connect} from 'react-redux';
 
 const MyList = (props) => {
 
@@ -64,7 +66,7 @@ const MyList = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            {moviesList}
+            {<MoviesList moviesList={moviesList}/>}
           </div>
         </section>
 
@@ -86,8 +88,12 @@ const MyList = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+});
+
 MyList.propTypes = {
-  moviesList: PropTypes.element.isRequired,
+  moviesList: PropTypes.array.isRequired,
 };
 
-export default MyList;
+export default connect(mapStateToProps, null)(MyList);

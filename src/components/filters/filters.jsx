@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.filterMovies());
   },
   onAllFilmsClick() {
-    dispatch(ActionCreator.resetState());
+    dispatch(ActionCreator.resetFilters());
   },
 });
 

@@ -20,7 +20,7 @@ const MoviesList = (props) => {
       {moviesPerStep.map((movie) =>
         <MovieCard
           key={nanoid()}
-          generatedFilm={movie}
+          movie={movie}
           trackActiveFilmId={() => {
             setActiveFilmId((prevFilmId) => ({
               ...prevFilmId,

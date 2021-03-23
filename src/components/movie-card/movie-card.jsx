@@ -5,7 +5,7 @@ import SmallPlayer from "../small-player/small-player";
 
 const MovieCard = (props) => {
 
-  const {generatedFilm, trackActiveFilmId} = props;
+  const {movie, trackActiveFilmId} = props;
   const [isPreviewPlaying, setIsPreviewPlaying] = useState({status: false});
   const cardRef = useRef();
 
@@ -40,14 +40,14 @@ const MovieCard = (props) => {
         onClick={trackActiveFilmId}
       >
         {isPreviewPlaying.status ? (
-          <SmallPlayer videoLink={generatedFilm.videoLink} isMuted={true}/>
+          <SmallPlayer videoLink={movie.preview_video_link} isMuted={true}/>
         ) : (
           <React.Fragment>
             <div className="small-movie-card__image">
-              <img src={generatedFilm.previewImage} alt="Bohemian Rhapsody" width="280" height="175"/>
+              <img src={movie.preview_image} alt="Bohemian Rhapsody" width="280" height="175"/>
             </div>
             <h3 className="small-movie-card__title">
-              <Link className="small-movie-card__link" to={`/films/1`}>{generatedFilm.name}</Link>
+              <Link className="small-movie-card__link" to={`/films/1`}>{movie.name}</Link>
             </h3>
           </React.Fragment>
         )}
@@ -57,7 +57,7 @@ const MovieCard = (props) => {
 };
 
 MovieCard.propTypes = {
-  generatedFilm: PropTypes.object.isRequired,
+  movie: PropTypes.object.isRequired,
   trackActiveFilmId: PropTypes.func
 };
 

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
 const AddReview = (props) => {
 
-  const {generatedFilms} = props;
-  const {backgroundImage, posterImage} = generatedFilms[0];
+  const {moviesList} = props;
+  const {backgroundImage, posterImage} = moviesList[0];
   const review = useState(``);
   const setUserReview = review[1];
 
@@ -137,8 +138,12 @@ const AddReview = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+});
+
 AddReview.propTypes = {
-  generatedFilms: PropTypes.array.isRequired,
+  moviesList: PropTypes.array.isRequired,
 };
 
-export default AddReview;
+export default connect(mapStateToProps, null)(AddReview);
