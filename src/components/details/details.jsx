@@ -8,7 +8,7 @@ dayjs.extend(duration);
 
 const Details = (props) => {
 
-  const {generatedFilm} = props;
+  const {movie} = props;
   const runTime = (runTimeInMinutes) => {
     const runTimeDuration = dayjs.duration(runTimeInMinutes, `minute`);
     return runTimeDuration.format(`H`) + `h ` + runTimeDuration.format(`mm`) + `m`;
@@ -20,13 +20,13 @@ const Details = (props) => {
         <div className="movie-card__text-col">
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Director</strong>
-            <span className="movie-card__details-value">{generatedFilm.director}</span>
+            <span className="movie-card__details-value">{movie.director}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Starring</strong>
             <span className="movie-card__details-value">
-              {generatedFilm.starring.map((starringActor, i) => {
-                if (generatedFilm.starring.length === i + 1) {
+              {movie.starring.map((starringActor, i) => {
+                if (movie.starring.length === i + 1) {
                   return (<React.Fragment key={nanoid()}>
                     {starringActor} <br/>
                   </React.Fragment>);
@@ -43,15 +43,15 @@ const Details = (props) => {
         <div className="movie-card__text-col">
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Run Time</strong>
-            <span className="movie-card__details-value">{runTime(generatedFilm.runTime)}</span>
+            <span className="movie-card__details-value">{runTime(movie.runTime)}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Genre</strong>
-            <span className="movie-card__details-value">{generatedFilm.genre}</span>
+            <span className="movie-card__details-value">{movie.genre}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Released</strong>
-            <span className="movie-card__details-value">{generatedFilm.released}</span>
+            <span className="movie-card__details-value">{movie.released}</span>
           </p>
         </div>
       </div>
@@ -60,7 +60,7 @@ const Details = (props) => {
 };
 
 Details.propTypes = {
-  generatedFilm: PropTypes.object.isRequired
+  movie: PropTypes.object.isRequired
 };
 
 export default Details;

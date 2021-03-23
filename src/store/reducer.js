@@ -1,15 +1,12 @@
-import {generateFilmCard} from "../mocks/films";
 import {ActionType} from "./action";
-
-const FILM_CARDS_NUMBER = 6;
-const filmCards = new Array(FILM_CARDS_NUMBER).fill().map(generateFilmCard);
 
 const initialState = {
   genre: `All films`,
-  moviesList: filmCards,
-  initialMoviesList: filmCards,
-  renderedMovies: 8,
-  moviesPerStepCounter: 8,
+  moviesList: [],
+  initialMoviesList: [],
+  renderedMovies: 4,
+  moviesPerStepCounter: 4,
+  isDataLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,13 +26,27 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.RESET_STATE:
       return {
-        ...initialState
+        ...initialState,
+      };
+
+    case ActionType.RESET_FILTERS:
+      return {
+        ...state,
+        moviesList: state.initialMoviesList,
       };
 
     case ActionType.INCREASE_RENDERED_FILMS_COUNT:
       return {
         ...state,
         renderedMovies: state.renderedMovies + state.moviesPerStepCounter,
+      };
+
+    case ActionType.LOAD_MOVIES:
+      return {
+        ...state,
+        moviesList: action.payload,
+        initialMoviesList: action.payload,
+        isDataLoaded: !state.isDataLoaded,
       };
   }
 

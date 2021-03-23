@@ -3,9 +3,11 @@ import {useHistory, Link} from 'react-router-dom';
 import Tabs from "../tabs/tabs";
 import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card";
+import {nanoid} from "nanoid";
+import {connect} from 'react-redux';
 
 const MoviePage = (props) => {
-  const {generatedFilm, generatedFilms} = props;
+  const {moviesList} = props;
 
   const history = useHistory();
 
@@ -73,10 +75,10 @@ const MoviePage = (props) => {
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="movie-card__title">{moviesList[1].name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">Drama</span>
-                <span className="movie-card__year">2014</span>
+                <span className="movie-card__genre">{moviesList[1].genre}</span>
+                <span className="movie-card__year">{moviesList[1].released}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -109,11 +111,11 @@ const MoviePage = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={moviesList[1].poster_image} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
             </div>
 
             <div className="movie-card__desc">
-              <Tabs generatedFilm={generatedFilm}/>
+              <Tabs movie={moviesList[1]}/>
             </div>
           </div>
         </div>
@@ -124,10 +126,13 @@ const MoviePage = (props) => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__movies-list">
-            {generatedFilms.map((film) =>
-              film.id !== generatedFilm.id &&
-              film.genre === generatedFilm.genre &&
-              <MovieCard generatedFilm={film}/>,
+            {moviesList.map((film) =>
+              film.id !== moviesList[1].id &&
+              film.genre === moviesList[1].genre &&
+              <MovieCard
+                movie={film}
+                key={nanoid()}
+              />,
             )}
           </div>
         </section>
@@ -150,10 +155,13 @@ const MoviePage = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+});
+
 MoviePage.propTypes = {
-  generatedFilm: PropTypes.object.isRequired,
-  generatedFilms: PropTypes.array.isRequired
+  moviesList: PropTypes.array.isRequired,
 };
 
+export default connect(mapStateToProps, null)(MoviePage);
 
-export default MoviePage;

@@ -4,15 +4,21 @@ import {useHistory} from 'react-router-dom';
 import MoviesList from "../movies-list/movies-list";
 import Filters from "../filters/filters";
 import ShowMore from "../show-more/show-more";
+import Spinner from "../loading-spinner/loading-spinner";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
 import {ActionCreator} from "../../store/action";
+import {fetchMoviesList} from "../../api-actions/api-actions";
 
 const MainPage = (props) => {
 
-  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList, renderedMovies, onPageChange} = props;
+  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList, renderedMovies, onPageChange, isDataLoaded, onLoadData} = props;
   const history = useHistory();
   const uniqueFiltersNames = [`All films`, ...new Set(initialMoviesList.map((movie) => movie.genre))];
+
+  if (isDataLoaded === false) {
+    onLoadData();
+  }
 
   return (
     <React.Fragment>
@@ -99,10 +105,13 @@ const MainPage = (props) => {
           </ul>
 
           <div className="catalog__movies-list">
-            <MoviesList moviesList={moviesList} />
+            {isDataLoaded === false
+              ? <Spinner/>
+              : <MoviesList moviesList={moviesList}/>
+            }
           </div>
 
-          {moviesList.length > renderedMovies
+          {moviesList.length > renderedMovies && isDataLoaded === true
             ? <ShowMore/>
             : ``}
 
@@ -129,12 +138,16 @@ const MainPage = (props) => {
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
   initialMoviesList: state.initialMoviesList,
-  renderedMovies: state.renderedMovies
+  renderedMovies: state.renderedMovies,
+  isDataLoaded: state.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onPageChange() {
-    dispatch(ActionCreator.resetState());
+    dispatch(ActionCreator.resetFilters());
+  },
+  onLoadData() {
+    dispatch(fetchMoviesList());
   },
 });
 
@@ -146,6 +159,8 @@ MainPage.propTypes = {
   initialMoviesList: PropTypes.array.isRequired,
   renderedMovies: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

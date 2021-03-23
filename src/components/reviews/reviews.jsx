@@ -6,13 +6,13 @@ import {nanoid} from "nanoid";
 
 const Reviews = (props) => {
 
-  const {generatedFilm} = props;
+  const {movie} = props;
 
   return (
     <React.Fragment>
       <div className="movie-card__reviews movie-card__row">
         <div className="movie-card__reviews-col">
-          {generatedFilm.comments.map((comment) =>
+          {movie.comments.map((comment) =>
             <Review
               key={nanoid()}
               userReview={comment}
@@ -24,7 +24,7 @@ const Reviews = (props) => {
 };
 
 Reviews.propTypes = {
-  generatedFilm: PropTypes.object.isRequired
+  movie: PropTypes.object.isRequired
 };
 
 export default Reviews;

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 
 const Player = (props) => {
 
-  const {videoLink} = props;
+  const {moviesList} = props;
 
   return (
     <React.Fragment>
@@ -41,8 +42,8 @@ const Player = (props) => {
       </div>
 
       <div className="player">
-        <video src={videoLink} className="player__video" poster="img/player-poster.jpg" controls>
-          <source src={videoLink} type="video/webm"/>
+        <video src={moviesList[0].video_link} className="player__video" poster="img/player-poster.jpg" controls>
+          <source src={moviesList[0].video_link} type="video/webm"/>
         </video>
 
         <button type="button" className="player__exit">Exit</button>
@@ -78,9 +79,13 @@ const Player = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+});
+
 Player.propTypes = {
-  videoLink: PropTypes.string.isRequired,
+  moviesList: PropTypes.array.isRequired,
 };
 
+export default connect(mapStateToProps, null)(Player);
 
-export default Player;

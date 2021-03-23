@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./components/app/app";
-import {generateFilmCard} from "./mocks/films";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import {Provider} from 'react-redux';
 import {reducer} from "./store/reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
+import {createApi} from "./api/api";
+import thunk from "redux-thunk";
 
 const promoMovieData = {
   name: `The Grand Budapest Hotel`,
@@ -13,9 +14,12 @@ const promoMovieData = {
   genre: `Drama`
 };
 
-const FILM_CARDS_NUMBER = 8;
-const filmCards = new Array(FILM_CARDS_NUMBER).fill().map(generateFilmCard);
-const store = createStore(reducer, composeWithDevTools());
+const api = createApi();
+
+const store = createStore(reducer,
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api)),
+    ));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -23,7 +27,6 @@ ReactDOM.render(
         promoName={promoMovieData.name}
         promoGenre={promoMovieData.genre}
         promoRelease={promoMovieData.release}
-        generatedFilms={filmCards}
       />
     </Provider>,
     document.querySelector(`#root`),
