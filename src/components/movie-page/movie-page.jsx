@@ -157,6 +157,7 @@ const MoviePage = (props) => {
 
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
+  initialMoviesList: state.initialMoviesList
 });
 
 MoviePage.propTypes = {

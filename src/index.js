@@ -6,7 +6,9 @@ import {Provider} from 'react-redux';
 import {reducer} from "./store/reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {createApi} from "./api/api";
+import {ActionCreator} from "./store/action";
 import thunk from "redux-thunk";
+import {checkAuth} from "./api-actions/api-actions";
 
 const promoMovieData = {
   name: `The Grand Budapest Hotel`,
@@ -14,12 +16,16 @@ const promoMovieData = {
   genre: `Drama`
 };
 
-const api = createApi();
+const api = createApi(
+    () => store.dispatch(ActionCreator.changeAuthorizationStatus(false))
+);
 
 const store = createStore(reducer,
     composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument(api)),
     ));
+
+store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
