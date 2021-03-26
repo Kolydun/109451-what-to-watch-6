@@ -8,6 +8,7 @@ import MyList from "../my-list/my-list";
 import MoviePage from "../movie-page/movie-page";
 import AddReview from "../add-reviews/add-reviews";
 import PageNotFound from "../page-not-found/page-not-found";
+import PrivateRoute from "../private-route/private-route";
 
 const App = (props) => {
   const {promoName, promoGenre, promoRelease} = props;
@@ -25,18 +26,24 @@ const App = (props) => {
         <Route exact path="/login">
           <SignIn />
         </Route>
-        <Route exact path="/mylist">
-          <MyList />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/mylist"
+          redirectTo={`/login`}
+          render={() => <MyList/>}
+        />
         <Route exact path="/player/:id?">
           <Player />
         </Route>
         <Route exact path="/films/:id?">
           <MoviePage />
         </Route>
-        <Route exact path="/films/:id?/review">
-          <AddReview />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/films/:id?/review"
+          redirectTo={`/login`}
+          render={() => <AddReview />}
+        />
         <Route>
           <PageNotFound/>
         </Route>
@@ -47,7 +54,6 @@ const App = (props) => {
 
 
 App.propTypes = {
-  moviesList: PropTypes.array.isRequired,
   promoName: PropTypes.string.isRequired,
   promoGenre: PropTypes.string.isRequired,
   promoRelease: PropTypes.string.isRequired

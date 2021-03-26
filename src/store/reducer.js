@@ -2,11 +2,13 @@ import {ActionType} from "./action";
 
 const initialState = {
   genre: `All films`,
+  initialGenre: `All films`,
   moviesList: [],
   initialMoviesList: [],
   renderedMovies: 4,
   moviesPerStepCounter: 4,
   isDataLoaded: false,
+  authorizationStatus: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,7 +34,9 @@ const reducer = (state = initialState, action) => {
     case ActionType.RESET_FILTERS:
       return {
         ...state,
+        genre: state.initialGenre,
         moviesList: state.initialMoviesList,
+        renderedMovies: state.moviesPerStepCounter,
       };
 
     case ActionType.INCREASE_RENDERED_FILMS_COUNT:
@@ -47,6 +51,12 @@ const reducer = (state = initialState, action) => {
         moviesList: action.payload,
         initialMoviesList: action.payload,
         isDataLoaded: !state.isDataLoaded,
+      };
+
+    case ActionType.CHANGE_AUTHORIZATION_STATUS:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
   }
 
