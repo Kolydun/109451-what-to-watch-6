@@ -25,15 +25,16 @@ const store = createStore(reducer,
         applyMiddleware(thunk.withExtraArgument(api)),
     ));
 
-store.dispatch(checkAuth());
-
-ReactDOM.render(
-    <Provider store={store}>
-      <App
-        promoName={promoMovieData.name}
-        promoGenre={promoMovieData.genre}
-        promoRelease={promoMovieData.release}
-      />
-    </Provider>,
-    document.querySelector(`#root`),
-);
+Promise.resolve(store.dispatch(checkAuth()))
+  .then(() => {
+    ReactDOM.render(
+        <Provider store={store}>
+          <App
+            promoName={promoMovieData.name}
+            promoGenre={promoMovieData.genre}
+            promoRelease={promoMovieData.release}
+          />
+        </Provider>,
+        document.querySelector(`#root`),
+    );
+  });
