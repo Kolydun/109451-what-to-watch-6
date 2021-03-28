@@ -5,7 +5,7 @@ const PageNotFound = () => {
   return (
     <React.Fragment>
       <h1>404 PageNotFound</h1>
-      <Link to="/">Вернутся на главную страницу</Link>
+      <Link to="/">Вернуться на главную страницу</Link>
     </React.Fragment>
   );
 };

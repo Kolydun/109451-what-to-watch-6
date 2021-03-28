@@ -1,13 +1,18 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
 import SmallPlayer from "../small-player/small-player";
+import {useHistory, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {ActionCreator} from "../../store/action";
+
 
 const MovieCard = (props) => {
 
-  const {movie, trackActiveFilmId} = props;
+  const {movie, onMovieCardClick} = props;
   const [isPreviewPlaying, setIsPreviewPlaying] = useState({status: false});
   const cardRef = useRef();
+  const history = useHistory();
+
 
   useEffect(() => {
     let timer;
@@ -37,7 +42,10 @@ const MovieCard = (props) => {
       <article
         ref={cardRef}
         className="small-movie-card catalog__movies-card"
-        onClick={trackActiveFilmId}
+        onClick={() => {
+          onMovieCardClick();
+          history.push(`/films/` + movie.id);
+        }}
       >
         {isPreviewPlaying.status ? (
           <SmallPlayer videoLink={movie.preview_video_link} isMuted={true}/>
@@ -46,8 +54,14 @@ const MovieCard = (props) => {
             <div className="small-movie-card__image">
               <img src={movie.preview_image} alt="Bohemian Rhapsody" width="280" height="175"/>
             </div>
-            <h3 className="small-movie-card__title">
-              <Link className="small-movie-card__link" to={`/films/1`}>{movie.name}</Link>
+            <h3
+              className="small-movie-card__title"
+              onClick={() => {
+                onMovieCardClick();
+                history.push(`/films/` + movie.id);
+              }}
+            >
+              <Link className="small-movie-card__link" to="">{movie.name}</Link>
             </h3>
           </React.Fragment>
         )}
@@ -56,9 +70,17 @@ const MovieCard = (props) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onMovieCardClick() {
+    dispatch(ActionCreator.resetLoadMovieDetailsFlag());
+  },
+});
+
 MovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
-  trackActiveFilmId: PropTypes.func
+  onMovieCardClick: PropTypes.func.isRequired,
 };
 
-export default MovieCard;
+
+export default connect(null, mapDispatchToProps)(MovieCard);
+

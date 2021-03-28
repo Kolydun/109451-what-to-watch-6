@@ -49,14 +49,14 @@ const Tabs = (props) => {
       </nav>
       {whichTab === `overview` && <Overview movie={movie}/>}
       {whichTab === `details` && <Details movie={movie}/>}
-      {whichTab === `reviews` && <Reviews movie={movie}/>}
+      {whichTab === `reviews` && <Reviews />}
 
     </React.Fragment>
   );
 };
 
 Tabs.propTypes = {
-  movie: PropTypes.object.isRequired
+  movie: PropTypes.object.isRequired,
 };
 
 

@@ -8,13 +8,13 @@ const Overview = (props) => {
 
   const ratingLevel = (rating) => {
     let stringRating = ``;
-    if (rating >= 0 && rating <= 3) {
+    if (rating >= 0 && rating <= 3.9) {
       stringRating = `Bad`;
-    } else if (rating >= 4 && rating <= 5) {
+    } else if (rating >= 4 && rating <= 5.9) {
       stringRating = `Normal`;
-    } else if (rating > 5 && rating <= 8) {
+    } else if (rating > 5.9 && rating <= 8.9) {
       stringRating = `Good`;
-    } else if (rating > 8 && rating < 10) {
+    } else if (rating > 8.9 && rating < 10) {
       stringRating = `Very good`;
     } else if (rating === 10) {
       stringRating = `Awesome`;

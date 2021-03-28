@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import MoviesList from "../movies-list/movies-list";
 import Filters from "../filters/filters";
@@ -8,25 +8,25 @@ import AuthorizedHeader from "../header-authorized/header-authorized";
 import UnAuthorizedHeader from "../header-unauthorized/header-unathorized";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
-import {fetchMoviesList} from "../../api-actions/api-actions";
+import {fetchMoviesList, fetchPromoMovie} from "../../api-actions/api-actions";
 
 const MainPage = (props) => {
 
-  const {moviesList, promoName, promoGenre, promoRelease, initialMoviesList, renderedMovies, isDataLoaded, onLoadData, authorizationStatus} = props;
+  const {moviesList, initialMoviesList, renderedMovies, isDataLoaded, onLoadData, authorizationStatus, isPromoLoaded, onPromoLoad} = props;
   const uniqueFiltersNames = [`All films`, ...new Set(initialMoviesList.map((movie) => movie.genre))];
 
   if (isDataLoaded === false) {
     onLoadData();
   }
 
+  if (authorizationStatus === true) {
+    useEffect(() => onPromoLoad(), []);
+  }
+
   return (
     <React.Fragment>
-      {authorizationStatus === true
-        ? <AuthorizedHeader
-          promoRelease={promoRelease}
-          promoName={promoName}
-          promoGenre={promoGenre}
-        />
+      {authorizationStatus === true && isPromoLoaded === true
+        ? <AuthorizedHeader />
         : <UnAuthorizedHeader />
       }
       <div className="page-content">
@@ -79,24 +79,28 @@ const mapStateToProps = (state) => ({
   renderedMovies: state.renderedMovies,
   isDataLoaded: state.isDataLoaded,
   authorizationStatus: state.authorizationStatus,
+  isPromoLoaded: state.isPromoLoaded,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchMoviesList());
   },
+  onPromoLoad() {
+    dispatch(fetchPromoMovie());
+  },
 });
 
 MainPage.propTypes = {
-  promoName: PropTypes.string.isRequired,
-  promoGenre: PropTypes.string.isRequired,
-  promoRelease: PropTypes.string.isRequired,
   moviesList: PropTypes.array.isRequired,
   initialMoviesList: PropTypes.array.isRequired,
   renderedMovies: PropTypes.number.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
+  isPromoLoaded: PropTypes.bool.isRequired,
+  onPromoLoad: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
