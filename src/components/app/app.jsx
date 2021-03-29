@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import MainPage from "../main-page/page-main";
 import SignIn from "../sign-in/sign-in";
 import Player from "../player/player";
@@ -9,19 +8,15 @@ import MoviePage from "../movie-page/movie-page";
 import AddReview from "../add-reviews/add-reviews";
 import PageNotFound from "../page-not-found/page-not-found";
 import PrivateRoute from "../private-route/private-route";
+import browserHistory from "../../browser-history/browser-history";
 
-const App = (props) => {
-  const {promoName, promoGenre, promoRelease} = props;
+const App = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path="/">
-          <MainPage
-            promoName={promoName}
-            promoGenre={promoGenre}
-            promoRelease={promoRelease}
-          />
+          <MainPage/>
         </Route>
         <Route exact path="/login">
           <SignIn />
@@ -29,8 +24,7 @@ const App = (props) => {
         <PrivateRoute
           exact
           path="/mylist"
-          redirectTo={`/login`}
-          render={() => <MyList/>}
+          render={() => <MyList />}
         />
         <Route exact path="/player/:id?">
           <Player />
@@ -41,22 +35,17 @@ const App = (props) => {
         <PrivateRoute
           exact
           path="/films/:id?/review"
-          redirectTo={`/login`}
           render={() => <AddReview />}
         />
         <Route>
           <PageNotFound/>
         </Route>
+        <Route exact path="/404">
+          <PageNotFound/>
+        </Route>
       </Switch>
     </BrowserRouter>
   );
-};
-
-
-App.propTypes = {
-  promoName: PropTypes.string.isRequired,
-  promoGenre: PropTypes.string.isRequired,
-  promoRelease: PropTypes.string.isRequired
 };
 
 export default App;

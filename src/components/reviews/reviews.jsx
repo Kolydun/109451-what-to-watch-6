@@ -1,30 +1,54 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 import Review from "../review/review";
 import {nanoid} from "nanoid";
+import {fetchComments} from "../../api-actions/api-actions";
+import {connect} from "react-redux";
+import {useParams} from "react-router-dom";
+import Spinner from "../loading-spinner/loading-spinner";
 
 
 const Reviews = (props) => {
 
-  const {movie} = props;
+  const {isMovieCommentsLoaded, onMovieCommentsLoad, movieComments} = props;
+  const {id} = useParams();
+
+  if (isMovieCommentsLoaded === false) {
+    useEffect(() => onMovieCommentsLoad(id), []);
+  }
 
   return (
-    <React.Fragment>
-      <div className="movie-card__reviews movie-card__row">
-        <div className="movie-card__reviews-col">
-          {movie.comments.map((comment) =>
-            <Review
-              key={nanoid()}
-              userReview={comment}
-            />)}
+    isMovieCommentsLoaded === false
+      ? <Spinner/>
+      : <React.Fragment>
+        <div className="movie-card__reviews movie-card__row">
+          <div className="movie-card__reviews-col">
+            {movieComments.map((comment) =>
+              <Review
+                key={nanoid()}
+                userReview={comment}
+              />)}
+          </div>
         </div>
-      </div>
-    </React.Fragment>
+      </React.Fragment>
   );
 };
 
+const mapStateToProps = (state) => ({
+  isMovieCommentsLoaded: state.isMovieCommentsLoaded,
+  movieComments: state.movieComments,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMovieCommentsLoad(movieId) {
+    dispatch(fetchComments(movieId));
+  },
+});
+
 Reviews.propTypes = {
-  movie: PropTypes.object.isRequired
+  onMovieCommentsLoad: PropTypes.func.isRequired,
+  movieComments: PropTypes.array.isRequired,
+  isMovieCommentsLoaded: PropTypes.bool.isRequired,
 };
 
-export default Reviews;
+export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

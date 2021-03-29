@@ -5,10 +5,21 @@ const initialState = {
   initialGenre: `All films`,
   moviesList: [],
   initialMoviesList: [],
+  promoMovie: {},
+  movieDetails: {},
+  dataForReviewPage: {},
+  movieComments: [],
+  isDataForReviewPageLoaded: false,
+  isPromoLoaded: false,
+  isMovieDetailsLoaded: false,
+  isMovieCommentsLoaded: false,
   renderedMovies: 4,
   moviesPerStepCounter: 4,
   isDataLoaded: false,
   authorizationStatus: false,
+  isReviewBlocked: false,
+  isReviewSendCorrectly: false,
+  isReviewSendError: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,6 +68,60 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+
+    case ActionType.LOAD_PROMO_MOVIE:
+      return {
+        ...state,
+        isPromoLoaded: true,
+        promoMovie: action.payload,
+      };
+
+    case ActionType.LOAD_MOVIE_DETAILS:
+      return {
+        ...state,
+        isMovieDetailsLoaded: true,
+        movieDetails: action.payload,
+      };
+
+    case ActionType.RESET_LOAD_MOVIE_DETAILS_FLAG:
+      return {
+        ...state,
+        isMovieDetailsLoaded: false,
+        isMovieCommentsLoaded: false,
+        isDataForReviewPageLoaded: false,
+      };
+
+    case ActionType.LOAD_MOVIE_COMMENTS:
+      return {
+        ...state,
+        isMovieCommentsLoaded: true,
+        movieComments: action.payload,
+      };
+
+    case ActionType.LOAD_DATA_FOR_REVIEW_PAGE:
+      return {
+        ...state,
+        isDataForReviewPageLoaded: true,
+        dataForReviewPage: action.payload,
+      };
+
+    case ActionType.CHANGE_REVIEW_FORM_BLOCK_FLAG:
+      return {
+        ...state,
+        isReviewBlocked: action.payload,
+      };
+
+    case ActionType.CHANGE_REVIEW_SEND_FLAG:
+      return {
+        ...state,
+        isReviewSendCorrectly: action.payload,
+      };
+
+    case ActionType.CHANGE_REVIEW_SEND_ERROR_FLAG:
+      return {
+        ...state,
+        isReviewSendError: action.payload,
       };
   }
 

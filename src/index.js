@@ -9,31 +9,24 @@ import {createApi} from "./api/api";
 import {ActionCreator} from "./store/action";
 import thunk from "redux-thunk";
 import {checkAuth} from "./api-actions/api-actions";
-
-const promoMovieData = {
-  name: `The Grand Budapest Hotel`,
-  release: `2014`,
-  genre: `Drama`
-};
+import {redirect} from "./store/middleware/redirect";
 
 const api = createApi(
-    () => store.dispatch(ActionCreator.changeAuthorizationStatus(false))
+    () => store.dispatch(ActionCreator.changeAuthorizationStatus(false)),
+    () =>store.dispatch(ActionCreator.changePageNotFound(`/404`)),
 );
 
 const store = createStore(reducer,
     composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
     ));
 
 Promise.resolve(store.dispatch(checkAuth()))
   .then(() => {
     ReactDOM.render(
         <Provider store={store}>
-          <App
-            promoName={promoMovieData.name}
-            promoGenre={promoMovieData.genre}
-            promoRelease={promoMovieData.release}
-          />
+          <App />
         </Provider>,
         document.querySelector(`#root`),
     );

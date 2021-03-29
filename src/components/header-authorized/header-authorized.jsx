@@ -5,10 +5,9 @@ import {ActionCreator} from "../../store/action";
 import {useHistory} from 'react-router-dom';
 import {logout} from "../../api-actions/api-actions";
 
-
 const AuthorizedHeader = (props) => {
 
-  const {promoGenre, promoRelease, promoName, onPageChange, onLogOut} = props;
+  const {onPageChange, onLogOut, promoMovie} = props;
 
   const history = useHistory();
 
@@ -16,7 +15,7 @@ const AuthorizedHeader = (props) => {
     <React.Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={promoMovie.background_image} alt="The Grand Budapest Hotel"/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -59,14 +58,14 @@ const AuthorizedHeader = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={promoMovie.poster_image} alt={promoMovie.name + `poster`} width="218" height="327"/>
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{promoName}</h2>
+              <h2 className="movie-card__title">{promoMovie.name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{promoGenre}</span>
-                <span className="movie-card__year">{promoRelease}</span>
+                <span className="movie-card__genre">{promoMovie.genre}</span>
+                <span className="movie-card__year">{promoMovie.released}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -75,7 +74,7 @@ const AuthorizedHeader = (props) => {
                   type="button"
                   onClick={() => {
                     onPageChange();
-                    history.push(`/player/:1`);
+                    history.push(`/player/` + promoMovie.id);
                   }}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
@@ -111,15 +110,17 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLogOut() {
     dispatch(logout());
-  }
+  },
+});
+
+const mapStateToProps = (state) => ({
+  promoMovie: state.promoMovie,
 });
 
 AuthorizedHeader.propTypes = {
   onPageChange: PropTypes.func.isRequired,
-  promoGenre: PropTypes.string.isRequired,
-  promoName: PropTypes.string.isRequired,
-  promoRelease: PropTypes.string.isRequired,
   onLogOut: PropTypes.func.isRequired,
+  promoMovie: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(AuthorizedHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorizedHeader);
