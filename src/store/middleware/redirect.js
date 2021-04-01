@@ -1,8 +1,8 @@
 import browserHistory from "../../browser-history/browser-history";
-import {ActionType} from "../action";
+import {MovieActionType} from "../movie-actions/movie-actions";
 
 export const redirect = (_store) => (next) => (action) => {
-  if (action.type === ActionType.PAGE_NOT_FOUND) {
+  if (action.type === MovieActionType.CHANGE_PAGE_NOT_FOUND) {
     browserHistory.push(action.payload);
   }
 

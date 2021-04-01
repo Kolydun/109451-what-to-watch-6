@@ -2,17 +2,35 @@ import React, {useState, useEffect} from 'react';
 import {Link, useParams} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {fetchDataForReview, postReview} from "../../api-actions/api-actions";
+import {fetchDataForReview, postReview} from "../../store/api-actions/api-actions";
 import Spinner from "../loading-spinner/loading-spinner";
-import {ActionCreator} from "../../store/action";
 import {useHistory} from 'react-router-dom';
+import UserBlock from "../header-user-block-authorized/header-user-block-authorized";
+import {Routes} from "../../const/const";
+import {
+  changeReviewBlockFlag,
+  changeReviewSendFlag,
+  changeCommentsLoadFlag,
+} from "../../store/flag-actions/flag-actions";
+import {
+  getDataForReviewPage,
+  getIsDataForReviewPageLoaded, getIsReviewBlocked,
+  getIsReviewSendCorrectly, getIsReviewSendError,
+} from "../../store/add-review-page/selectors";
 
 
 const AddReview = (props) => {
 
-  const {dataForReviewPage, onReviewLoad, isDataForReviewPageLoaded, isReviewSendCorrectly, isReviewSendError, onSubmit, onReviewSend, isReviewBlocked} = props;
-  const {id} = useParams();
-  const history = useHistory();
+  const {
+    dataForReviewPage,
+    onReviewLoad,
+    isDataForReviewPageLoaded,
+    isReviewSendCorrectly,
+    isReviewSendError,
+    onSubmit,
+    onReviewSend,
+    isReviewBlocked,
+  } = props;
   const errorMessageStyle = {
     color: `red`,
     margin: `10px auto 10px auto`,
@@ -21,6 +39,10 @@ const AddReview = (props) => {
   };
   const MIN_COMMENT_LENGTH = 50;
   const INITIAL_RATING = 1;
+
+  const {id} = useParams();
+  const history = useHistory();
+
   const [reviewValue, setUserReview] = useState(``);
   const [ratingValue, setRating] = useState(INITIAL_RATING);
 
@@ -40,7 +62,7 @@ const AddReview = (props) => {
 
   useEffect(() => {
     if (isReviewSendCorrectly === true) {
-      history.push(`/films/` + id + `?`);
+      history.push(Routes.MOVIE_PAGE + id + `?`);
       setUserReview(``);
       setRating(INITIAL_RATING);
       onReviewSend(false);
@@ -50,7 +72,7 @@ const AddReview = (props) => {
 
   return (
     isDataForReviewPageLoaded === false
-      ? <Spinner />
+      ? <Spinner/>
       : <React.Fragment>
         <div className="visually-hidden">
           {/* inject:svg*/}
@@ -106,7 +128,7 @@ const AddReview = (props) => {
 
             <header className="page-header">
               <div className="logo">
-                <Link to="/" className="logo__link">
+                <Link to={Routes.HOME_PAGE} className="logo__link">
                   <span className="logo__letter logo__letter--1">W</span>
                   <span className="logo__letter logo__letter--2">T</span>
                   <span className="logo__letter logo__letter--3">W</span>
@@ -116,7 +138,7 @@ const AddReview = (props) => {
               <nav className="breadcrumbs">
                 <ul className="breadcrumbs__list">
                   <li className="breadcrumbs__item">
-                    <a href="movie-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                    <a href="movie-page.html" className="breadcrumbs__link">{dataForReviewPage.name}</a>
                   </li>
                   <li className="breadcrumbs__item">
                     <a className="breadcrumbs__link">Add review</a>
@@ -124,11 +146,7 @@ const AddReview = (props) => {
                 </ul>
               </nav>
 
-              <div className="user-block">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </div>
+              {<UserBlock/>}
             </header>
 
             <div className="movie-card__poster movie-card__poster--small">
@@ -197,7 +215,8 @@ const AddReview = (props) => {
               </div>
             </form>
             {isReviewSendError === true
-              ? <p className="add-review__error-text" style={errorMessageStyle}>An error has occurred, please try again</p>
+              ?
+              <p className="add-review__error-text" style={errorMessageStyle}>An error has occurred, please try again</p>
               : ``
             }
           </div>
@@ -208,11 +227,11 @@ const AddReview = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  dataForReviewPage: state.dataForReviewPage,
-  isDataForReviewPageLoaded: state.isDataForReviewPageLoaded,
-  isReviewSendCorrectly: state.isReviewSendCorrectly,
-  isReviewBlocked: state.isReviewBlocked,
-  isReviewSendError: state.isReviewSendError,
+  dataForReviewPage: getDataForReviewPage(state),
+  isDataForReviewPageLoaded: getIsDataForReviewPageLoaded(state),
+  isReviewSendCorrectly: getIsReviewSendCorrectly(state),
+  isReviewBlocked: getIsReviewBlocked(state),
+  isReviewSendError: getIsReviewSendError(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -221,11 +240,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSubmit(authData) {
     dispatch(postReview(authData));
-    dispatch(ActionCreator.changeReviewBlockFlag(true));
+    dispatch(changeReviewBlockFlag(true));
   },
   onReviewSend() {
-    dispatch(ActionCreator.changeReviewSendFlag(false));
-  }
+    dispatch(changeReviewSendFlag(false));
+    dispatch(changeCommentsLoadFlag(false));
+  },
 });
 
 AddReview.propTypes = {
@@ -240,3 +260,4 @@ AddReview.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddReview);
+

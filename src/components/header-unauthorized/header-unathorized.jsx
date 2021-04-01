@@ -51,8 +51,6 @@ const UnAuthorizedHeader = () => {
 
       <section className="movie-card">
         <div className="movie-card__bg">
-          {/* <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" /> */}
-          {/* <img src="img/bg-header.jpg"/>  */}
         </div>
 
         <h1 className="visually-hidden">WTW</h1>

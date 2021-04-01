@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from "../../store/action";
 import {useHistory} from 'react-router-dom';
-import {logout} from "../../api-actions/api-actions";
+import UserBlock from "../header-user-block-authorized/header-user-block-authorized";
+import {changeMovieInListStatus} from "../../store/api-actions/api-actions";
+import {Routes, MyListStatus} from "../../const/const";
+import {resetFilters} from "../../store/movie-actions/movie-actions";
+import {getPromoMovie} from "../../store/movies-list/selectors";
 
 const AuthorizedHeader = (props) => {
 
-  const {onPageChange, onLogOut, promoMovie} = props;
+  const {onPageChange, promoMovie, onMyListChange} = props;
 
   const history = useHistory();
 
@@ -29,30 +32,8 @@ const AuthorizedHeader = (props) => {
             </a>
           </div>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img
-                src="img/avatar.jpg"
-                alt="User avatar"
-                width="63"
-                height="63"
-                onClick={() => {
-                  onPageChange();
-                  history.push(`/mylist`);
-                }}
-              />
-            </div>
-          </div>
-          <div className="user-block__exit">
-            <a
-              className="user-block__link"
-              href=""
-              onClick={(evt) => {
-                evt.preventDefault();
-                onLogOut();
-              }}
-            >Log Out</a>
-          </div>
+          {<UserBlock/>}
+
         </header>
 
         <div className="movie-card__wrap">
@@ -74,9 +55,8 @@ const AuthorizedHeader = (props) => {
                   type="button"
                   onClick={() => {
                     onPageChange();
-                    history.push(`/player/` + promoMovie.id);
-                  }}
-                >
+                    history.push(Routes.PLAYER + promoMovie.id);
+                  }}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -87,8 +67,13 @@ const AuthorizedHeader = (props) => {
                   type="button"
                   onClick={() => {
                     onPageChange();
-                    history.push(`/mylist`);
-                  }}
+                    if (promoMovie.is_favorite === true) {
+                      onMyListChange({id: promoMovie.id, status: MyListStatus.REMOVE});
+                    } else if (promoMovie.is_favorite === false) {
+                      onMyListChange({id: promoMovie.id, status: MyListStatus.ADD});
+                    }
+                  }
+                  }
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -104,23 +89,24 @@ const AuthorizedHeader = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onPageChange() {
-    dispatch(ActionCreator.resetFilters());
-  },
-  onLogOut() {
-    dispatch(logout());
-  },
+const mapStateToProps = (state) => ({
+  promoMovie: getPromoMovie(state),
 });
 
-const mapStateToProps = (state) => ({
-  promoMovie: state.promoMovie,
+const mapDispatchToProps = (dispatch) => ({
+  onPageChange() {
+    dispatch(resetFilters());
+  },
+  onMyListChange(movieData) {
+    dispatch(changeMovieInListStatus(movieData));
+  },
 });
 
 AuthorizedHeader.propTypes = {
-  onPageChange: PropTypes.func.isRequired,
-  onLogOut: PropTypes.func.isRequired,
   promoMovie: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onMyListChange: PropTypes.func.isRequired,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorizedHeader);

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ActionCreator} from "../../store/action";
 import {connect} from 'react-redux';
+import {changeGenre, filterMovies, resetFilters} from "../../store/movie-actions/movie-actions";
+import {getGenre} from "../../store/movies-list/selectors";
+import {FiltersNames} from "../../const/const";
 
 
 const Filters = (props) => {
@@ -17,7 +19,7 @@ const Filters = (props) => {
           className="catalog__genres-link"
           onClick={(event) => {
             event.preventDefault();
-            if (filterName === `All films`) {
+            if (filterName === FiltersNames.ALL_FILMS) {
               onAllFilmsClick();
             } else {
               onFilterChange(filterName);
@@ -29,16 +31,16 @@ const Filters = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
+  genre: getGenre(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onFilterChange(newGenre) {
-    dispatch(ActionCreator.changeGenre(newGenre));
-    dispatch(ActionCreator.filterMovies());
+    dispatch(changeGenre(newGenre));
+    dispatch(filterMovies());
   },
   onAllFilmsClick() {
-    dispatch(ActionCreator.resetFilters());
+    dispatch(resetFilters());
   },
 });
 

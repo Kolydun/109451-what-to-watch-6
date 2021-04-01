@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 import Review from "../review/review";
 import {nanoid} from "nanoid";
-import {fetchComments} from "../../api-actions/api-actions";
+import {fetchComments} from "../../store/api-actions/api-actions";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
 import Spinner from "../loading-spinner/loading-spinner";
+import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page/selectors";
 
 
 const Reviews = (props) => {
@@ -13,9 +14,12 @@ const Reviews = (props) => {
   const {isMovieCommentsLoaded, onMovieCommentsLoad, movieComments} = props;
   const {id} = useParams();
 
-  if (isMovieCommentsLoaded === false) {
-    useEffect(() => onMovieCommentsLoad(id), []);
-  }
+  useEffect(() => {
+    if (isMovieCommentsLoaded === false) {
+      onMovieCommentsLoad(id);
+    }
+  }, []);
+
 
   return (
     isMovieCommentsLoaded === false
@@ -35,8 +39,8 @@ const Reviews = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isMovieCommentsLoaded: state.isMovieCommentsLoaded,
-  movieComments: state.movieComments,
+  isMovieCommentsLoaded: getIsMovieCommentsLoaded(state),
+  movieComments: getMovieComments(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

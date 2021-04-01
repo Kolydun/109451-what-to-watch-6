@@ -13,7 +13,8 @@ const Review = (props) => {
           <p className="review__text">{userReview.comment}</p>
           <footer className="review__details">
             <cite className="review__author">{userReview.user.name}</cite>
-            <time className="review__date" dateTime={userReview.date}>{dayjs(userReview.date).format(`MMMM D, YYYY`)}</time>
+            <time className="review__date"
+              dateTime={userReview.date}>{dayjs(userReview.date).format(`MMMM D, YYYY`)}</time>
           </footer>
         </blockquote>
         <div className="review__rating">{userReview.rating}</div>
@@ -23,7 +24,7 @@ const Review = (props) => {
 };
 
 Review.propTypes = {
-  userReview: PropTypes.object.isRequired
+  userReview: PropTypes.object.isRequired,
 };
 
 export default Review;

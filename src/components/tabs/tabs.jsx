@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Overview from "../overview/overview";
 import Details from "../details/details";
 import Reviews from "../reviews/reviews";
+import {TabsNames} from "../../const/const";
 
 
 const Tabs = (props) => {
@@ -47,9 +48,9 @@ const Tabs = (props) => {
           </li>
         </ul>
       </nav>
-      {whichTab === `overview` && <Overview movie={movie}/>}
-      {whichTab === `details` && <Details movie={movie}/>}
-      {whichTab === `reviews` && <Reviews />}
+      {whichTab === TabsNames.OVERVIEW && <Overview movie={movie}/>}
+      {whichTab === TabsNames.DETAILS && <Details movie={movie}/>}
+      {whichTab === TabsNames.REVIEWS && <Reviews />}
 
     </React.Fragment>
   );

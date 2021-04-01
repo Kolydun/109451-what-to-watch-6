@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {Routes} from "../../const/const";
+import {getMoviesList} from "../../store/movies-list/selectors";
 
 const Player = (props) => {
 
@@ -44,7 +46,8 @@ const Player = (props) => {
       </div>
 
       <div className="player">
-        <video src={moviesList[0].video_link} className="player__video" poster="img/player-poster.jpg" controls>
+        <video src={moviesList[0].video_link} className="player__video" poster="img/player-poster.jpg" controls
+          autoPlay>
           <source src={moviesList[0].video_link} type="video/webm"/>
         </video>
 
@@ -52,7 +55,7 @@ const Player = (props) => {
           type="button"
           className="player__exit"
           onClick={() => {
-            history.push(`/`);
+            history.push(Routes.HOME_PAGE);
           }}
         >Exit
         </button>
@@ -63,7 +66,7 @@ const Player = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  moviesList: state.moviesList,
+  moviesList: getMoviesList(state),
 });
 
 Player.propTypes = {

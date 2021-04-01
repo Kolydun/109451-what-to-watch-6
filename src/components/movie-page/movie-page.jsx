@@ -5,22 +5,30 @@ import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
-import {fetchMovieDetails} from "../../api-actions/api-actions";
+import {changeMovieInListStatus, fetchMovieDetails, fetchMoviesList} from "../../store/api-actions/api-actions";
 import Spinner from "../loading-spinner/loading-spinner";
+import UserBlock from "../header-user-block-authorized/header-user-block-authorized";
+import Footer from "../footer/footer";
+import {MyListStatus, Routes} from "../../const/const";
+import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-page/selectors";
+import {getMoviesList} from "../../store/movies-list/selectors";
+import {getAuthStatus} from "../../store/user/selectors";
 
 const MoviePage = (props) => {
-  const {onMovieDetailsLoad, movieDetails, isMovieDetailsLoaded, moviesList, authorizationStatus} = props;
-  const {id} = useParams();
+  const {onMovieDetailsLoad, movieDetails, isMovieDetailsLoaded, moviesList, authorizationStatus, onMyListChange} = props;
 
+  const {id} = useParams();
   const history = useHistory();
 
-  if (isMovieDetailsLoaded === false) {
-    useEffect(() => onMovieDetailsLoad(id), []);
-  }
+  useEffect(() => {
+    if (isMovieDetailsLoaded === false) {
+      onMovieDetailsLoad(id);
+    }
+  }, [isMovieDetailsLoaded]);
 
   return (
     isMovieDetailsLoaded === false
-      ? <Spinner />
+      ? <Spinner/>
       : <React.Fragment>
         <div className="visually-hidden">
           {/* inject:svg*/}
@@ -79,7 +87,7 @@ const MoviePage = (props) => {
 
             <header className="page-header movie-card__head">
               <div className="logo">
-                <Link to="/" className="logo__link">
+                <Link to={Routes.HOME_PAGE} className="logo__link">
                   <span className="logo__letter logo__letter--1">W</span>
                   <span className="logo__letter logo__letter--2">T</span>
                   <span className="logo__letter logo__letter--3">W</span>
@@ -87,11 +95,7 @@ const MoviePage = (props) => {
               </div>
 
               {authorizationStatus === true
-                ? <div className="user-block">
-                  <div className="user-block__avatar">
-                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                  </div>
-                </div>
+                ? <UserBlock/>
                 : ``
               }
             </header>
@@ -108,25 +112,36 @@ const MoviePage = (props) => {
                   <button
                     className="btn btn--play movie-card__button"
                     type="button"
-                    onClick={() => history.push(`/player/:` + movieDetails.id)}
+                    onClick={() => history.push(Routes.PLAYER + movieDetails.id)}
                   >
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"></use>
                     </svg>
                     <span>Play</span>
                   </button>
+
                   <button
                     className="btn btn--list movie-card__button"
                     type="button"
-                    onClick={() => history.push(`/mylist`)}
-                  >
+                    onClick={() => {
+                      if (authorizationStatus === true && movieDetails.is_favorite === true) {
+                        onMyListChange({id: movieDetails.id, status: MyListStatus.REMOVE});
+                      } else if (authorizationStatus === true && movieDetails.is_favorite === false) {
+                        onMyListChange({id: movieDetails.id, status: MyListStatus.ADD});
+                      } else {
+                        history.push(Routes.LOGIN);
+                      }
+                    }}>
                     <svg viewBox="0 0 19 20" width="19" height="20">
                       <use xlinkHref="#add"></use>
                     </svg>
                     <span>My list</span>
                   </button>
+
                   {authorizationStatus === true
-                    ? <Link to={`/films/` + movieDetails.id + `/review`} className="btn movie-card__button">Add review</Link>
+                    ?
+                    <Link to={Routes.MOVIE_PAGE + movieDetails.id + Routes.ADD_REVIEW} className="btn movie-card__button">Add
+                      review</Link>
                     : ``
                   }
                 </div>
@@ -151,6 +166,7 @@ const MoviePage = (props) => {
           <section className="catalog catalog--like-this">
             <h2 className="catalog__title">More like this</h2>
 
+
             <div className="catalog__movies-list">
               {moviesList.map((film) =>
                 film.id !== movieDetails.id &&
@@ -163,34 +179,26 @@ const MoviePage = (props) => {
             </div>
           </section>
 
-          <footer className="page-footer">
-            <div className="logo">
-              <Link to="/" className="logo__link logo__link--light">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
-
-            <div className="copyright">
-              <p>© 2019 What to watch Ltd.</p>
-            </div>
-          </footer>
+          {<Footer/>}
         </div>
       </React.Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  movieDetails: state.movieDetails,
-  isMovieDetailsLoaded: state.isMovieDetailsLoaded,
-  moviesList: state.moviesList,
-  authorizationStatus: state.authorizationStatus,
+  movieDetails: getMovieDetails(state),
+  isMovieDetailsLoaded: getIsMovieDetailsLoaded(state),
+  moviesList: getMoviesList(state),
+  authorizationStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onMovieDetailsLoad(movieId) {
     dispatch(fetchMovieDetails(movieId));
+    dispatch(fetchMoviesList());
+  },
+  onMyListChange(movieData) {
+    dispatch(changeMovieInListStatus(movieData));
   },
 });
 
@@ -200,7 +208,7 @@ MoviePage.propTypes = {
   movieDetails: PropTypes.object.isRequired,
   isMovieDetailsLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
+  onMyListChange: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
-

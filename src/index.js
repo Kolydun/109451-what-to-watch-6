@@ -3,20 +3,21 @@ import ReactDOM from 'react-dom';
 import App from "./components/app/app";
 import {createStore, applyMiddleware} from "redux";
 import {Provider} from 'react-redux';
-import {reducer} from "./store/reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {createApi} from "./api/api";
-import {ActionCreator} from "./store/action";
 import thunk from "redux-thunk";
-import {checkAuth} from "./api-actions/api-actions";
+import {checkAuth} from "./store/api-actions/api-actions";
 import {redirect} from "./store/middleware/redirect";
+import {Routes} from "./const/const";
+import {changeAuthorizationStatus, changePageNotFound} from "./store/movie-actions/movie-actions";
+import rootReducer from './store/root-reducer';
 
 const api = createApi(
-    () => store.dispatch(ActionCreator.changeAuthorizationStatus(false)),
-    () =>store.dispatch(ActionCreator.changePageNotFound(`/404`)),
+    () => store.dispatch(changeAuthorizationStatus(false)),
+    () =>store.dispatch(changePageNotFound(Routes.PAGE_NOT_FOUND)),
 );
 
-const store = createStore(reducer,
+const store = createStore(rootReducer,
     composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument(api)),
         applyMiddleware(redirect)
