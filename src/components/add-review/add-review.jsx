@@ -3,9 +3,9 @@ import {Link, useParams} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {fetchDataForReview, postReview} from "../../store/api-actions/api-actions";
-import Spinner from "../loading-spinner/loading-spinner";
+import Spinner from "../spinner/spinner";
 import {useHistory} from 'react-router-dom';
-import UserBlock from "../header-user-block-authorized/header-user-block-authorized";
+import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import {Routes} from "../../const/const";
 import {
   changeReviewBlockFlag,
@@ -17,7 +17,6 @@ import {
   getIsDataForReviewPageLoaded, getIsReviewBlocked,
   getIsReviewSendCorrectly, getIsReviewSendError,
 } from "../../store/add-review-page/selectors";
-
 
 const AddReview = (props) => {
 
@@ -68,7 +67,6 @@ const AddReview = (props) => {
       onReviewSend(false);
     }
   }, [isReviewSendCorrectly]);
-
 
   return (
     isDataForReviewPageLoaded === false
@@ -138,7 +136,7 @@ const AddReview = (props) => {
               <nav className="breadcrumbs">
                 <ul className="breadcrumbs__list">
                   <li className="breadcrumbs__item">
-                    <a href="movie-page.html" className="breadcrumbs__link">{dataForReviewPage.name}</a>
+                    <Link to={Routes.MOVIE_PAGE + id} className="breadcrumbs__link">{dataForReviewPage.name}</Link>
                   </li>
                   <li className="breadcrumbs__item">
                     <a className="breadcrumbs__link">Add review</a>

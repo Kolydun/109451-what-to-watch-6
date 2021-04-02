@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 
-const UnAuthorizedHeader = () => {
+const UnauthorizedHeader = () => {
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -74,4 +74,4 @@ const UnAuthorizedHeader = () => {
   );
 };
 
-export default UnAuthorizedHeader;
+export default UnauthorizedHeader;

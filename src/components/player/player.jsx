@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {Routes} from "../../const/const";
 import {getMoviesList} from "../../store/movies-list/selectors";
 
@@ -9,7 +9,7 @@ const Player = (props) => {
 
   const {moviesList} = props;
   const history = useHistory();
-
+  const {id} = useParams();
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -55,7 +55,7 @@ const Player = (props) => {
           type="button"
           className="player__exit"
           onClick={() => {
-            history.push(Routes.HOME_PAGE);
+            history.push(Routes.MOVIE_PAGE + id);
           }}
         >Exit
         </button>

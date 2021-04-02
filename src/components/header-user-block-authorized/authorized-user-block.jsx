@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom';
 import {Routes} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";
 
-const UserBlock = (props) => {
+const AuthorizedUserBlock = (props) => {
 
   const {onPageChange, onLogOut} = props;
   const history = useHistory();
@@ -52,9 +52,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-UserBlock.propTypes = {
+AuthorizedUserBlock.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onLogOut: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(UserBlock);
+export default connect(null, mapDispatchToProps)(AuthorizedUserBlock);

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import MoviesList from "../movies-list/movies-list";
 import Filters from "../filters/filters";
 import ShowMore from "../show-more/show-more";
-import Spinner from "../loading-spinner/loading-spinner";
+import Spinner from "../spinner/spinner";
 import Footer from "../footer/footer";
-import AuthorizedHeader from "../header-authorized/header-authorized";
-import UnAuthorizedHeader from "../header-unauthorized/header-unathorized";
+import AuthorizedHeader from "../authorized-header/authorized-header";
+import UnauthorizedHeader from "../unathorized-header/unathorized-header";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
 import {fetchMoviesList, fetchPromoMovie} from "../../store/api-actions/api-actions";
@@ -46,7 +46,7 @@ const MainPage = (props) => {
     <React.Fragment>
       {authorizationStatus === true && isPromoLoaded === true
         ? <AuthorizedHeader/>
-        : <UnAuthorizedHeader/>
+        : <UnauthorizedHeader/>
       }
       <div className="page-content">
         <section className="catalog">

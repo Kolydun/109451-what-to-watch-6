@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import UserBlock from "../header-user-block-authorized/header-user-block-authorized";
+import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import {changeMovieInListStatus} from "../../store/api-actions/api-actions";
 import {Routes, MyListStatus} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";

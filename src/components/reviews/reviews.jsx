@@ -5,7 +5,7 @@ import {nanoid} from "nanoid";
 import {fetchComments} from "../../store/api-actions/api-actions";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
-import Spinner from "../loading-spinner/loading-spinner";
+import Spinner from "../spinner/spinner";
 import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page/selectors";
 
 

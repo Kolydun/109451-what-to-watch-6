@@ -14,8 +14,8 @@ export const Routes = {
 };
 
 export const LoadMoreCounters = {
-  INITIAL_COUNTER: 4,
-  MOVIES_PER_STEP: 4,
+  INITIAL_COUNTER: 8,
+  MOVIES_PER_STEP: 8,
 };
 
 export const BackendRoutes = {
