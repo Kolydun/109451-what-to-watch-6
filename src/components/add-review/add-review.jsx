@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {fetchDataForReview, postReview} from "../../store/api-actions/api-actions";
 import Spinner from "../spinner/spinner";
 import {useHistory} from 'react-router-dom';
-import UserBlock from "../header-user-block-authorized/authorized-user-block";
+import UserBlock from "../authorized-header/authorized-user-block";
 import {Routes} from "../../const/const";
 import {
   changeReviewBlockFlag,
@@ -226,10 +226,10 @@ const AddReview = (props) => {
 
 AddReview.propTypes = {
   dataForReviewPage: PropTypes.shape({
-    backgroundColor: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    posterImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    name: PropTypes.string,
+    posterImage: PropTypes.string,
   }),
   onReviewLoad: PropTypes.func.isRequired,
   isDataForReviewPageLoaded: PropTypes.bool.isRequired,

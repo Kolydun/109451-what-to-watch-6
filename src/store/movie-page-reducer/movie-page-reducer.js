@@ -28,7 +28,6 @@ const moviePageReducer = (state = initialState, action) => {
         ...state,
         isMovieDetailsLoaded: false,
         isMovieCommentsLoaded: false,
-        isDataForReviewPageLoaded: false,
       };
 
     case DataActionType.LOAD_MOVIE_COMMENTS:

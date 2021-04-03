@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import {changeMovieInListStatus} from "../../store/api-actions/api-actions";
 import {Routes, MyListStatus} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";
 import {getPromoMovie} from "../../store/movies-list-reducer/selectors";
+import {getAuthStatus} from "../../store/user-reducer/selectors";
+import AuthorizedUserBlock from "../authorized-header/authorized-user-block";
+import UnauthorizedUserBlock from "../unathorized-header/unathorized-user-block";
+import {changePromoLoadFlag} from "../../store/flag-actions/flag-actions";
 
-const AuthorizedHeader = (props) => {
+const Header = (props) => {
 
-  const {onPageChange, promoMovie, onMyListChange} = props;
+  const {onPageChange, promoMovie, onMyListChange, authorizationStatus} = props;
 
   const history = useHistory();
 
@@ -32,7 +35,10 @@ const AuthorizedHeader = (props) => {
             </a>
           </div>
 
-          {<UserBlock/>}
+          {authorizationStatus === true
+            ? <AuthorizedUserBlock/>
+            : <UnauthorizedUserBlock/>
+          }
 
         </header>
 
@@ -66,15 +72,14 @@ const AuthorizedHeader = (props) => {
                   className="btn btn--list movie-card__button"
                   type="button"
                   onClick={() => {
-                    onPageChange();
-                    if (promoMovie.isFavorite === true) {
+                    if (authorizationStatus === true && promoMovie.isFavorite === true) {
                       onMyListChange({id: promoMovie.id, status: MyListStatus.REMOVE});
-                    } else if (promoMovie.isFavorite === false) {
+                    } else if (authorizationStatus === true && promoMovie.isFavorite === false) {
                       onMyListChange({id: promoMovie.id, status: MyListStatus.ADD});
+                    } else {
+                      history.push(Routes.LOGIN);
                     }
-                  }
-                  }
-                >
+                  }}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -89,22 +94,24 @@ const AuthorizedHeader = (props) => {
   );
 };
 
-AuthorizedHeader.propTypes = {
+Header.propTypes = {
   promoMovie: PropTypes.shape({
-    backgroundImage: PropTypes.string.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
+    backgroundImage: PropTypes.string,
+    posterImage: PropTypes.string,
+    name: PropTypes.string,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+    id: PropTypes.number,
+    isFavorite: PropTypes.bool,
   }),
   onPageChange: PropTypes.func.isRequired,
   onMyListChange: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   promoMovie: getPromoMovie(state),
+  authorizationStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -113,7 +120,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onMyListChange(movieData) {
     dispatch(changeMovieInListStatus(movieData));
+    dispatch(changePromoLoadFlag(false));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorizedHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -37,6 +37,12 @@ const addReviewPageReducer = (state = initialState, action) => {
         ...state,
         isReviewSendError: action.payload,
       };
+
+    case FlagActionType.CHANGE_REVIEW_DATA_LOAD_FLAG:
+      return {
+        ...state,
+        isDataForReviewPageLoaded: action.payload,
+      };
   }
 
   return state;

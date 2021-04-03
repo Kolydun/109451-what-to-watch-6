@@ -7,10 +7,10 @@ import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
 import {changeMovieInListStatus, fetchMovieDetails, fetchMoviesList} from "../../store/api-actions/api-actions";
 import Spinner from "../spinner/spinner";
-import UserBlock from "../header-user-block-authorized/authorized-user-block";
+import UserBlock from "../authorized-header/authorized-user-block";
 import Footer from "../footer/footer";
 import {MyListStatus, Routes} from "../../const/const";
-import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-pagre-ducer/selectors";
+import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-page-reducer/selectors";
 import {getMoviesList} from "../../store/movies-list-reducer/selectors";
 import {getAuthStatus} from "../../store/user-reducer/selectors";
 
@@ -19,6 +19,7 @@ const MoviePage = (props) => {
 
   const {id} = useParams();
   const history = useHistory();
+  const moreLikeThisMovies = moviesList.filter((film) => film.id !== movieDetails.id && film.genre === movieDetails.genre);
 
   useEffect(() => {
     if (isMovieDetailsLoaded === false) {
@@ -77,7 +78,7 @@ const MoviePage = (props) => {
           {/* endinject*/}
         </div>
 
-        <section className="movie-card movie-card--full" style={{backgroundColor: `` + movieDetails.colorOfBackground}}>
+        <section className="movie-card movie-card--full" style={{backgroundColor: movieDetails.backgroundColor}}>
           <div className="movie-card__hero">
             <div className="movie-card__bg">
               <img src={movieDetails.backgroundImage} alt={movieDetails.name}/>
@@ -168,9 +169,7 @@ const MoviePage = (props) => {
 
 
             <div className="catalog__movies-list">
-              {moviesList.map((film) =>
-                film.id !== movieDetails.id &&
-                film.genre === movieDetails.genre &&
+              {moreLikeThisMovies.slice(0, 4).map((film) =>
                 <MovieCard
                   movie={film}
                   key={nanoid()}
@@ -197,14 +196,14 @@ MoviePage.propTypes = {
   ),
   onMovieDetailsLoad: PropTypes.func.isRequired,
   movieDetails: PropTypes.shape({
-    backgroundImage: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    colorOfBackground: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string,
+    name: PropTypes.string,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+    id: PropTypes.number,
+    isFavorite: PropTypes.bool,
+    posterImage: PropTypes.string,
+    backgroundColor: PropTypes.string,
   }),
 };
 

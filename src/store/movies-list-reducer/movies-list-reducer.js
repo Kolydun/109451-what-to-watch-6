@@ -73,6 +73,12 @@ const moviesListReducer = (state = initialState, action) => {
         ...state,
         favouriteMovies: action.payload.map((movie) => adaptToClient(movie)),
       };
+
+    case FlagActionType.CHANGE_PROMO_LOAD_FLAG:
+      return {
+        ...state,
+        isPromoLoaded: action.payload,
+      };
   }
 
   return state;

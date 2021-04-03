@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import MoviesList from "../movies-list/movies-list";
 import Filters from "../filters/filters";
 import ShowMore from "../show-more/show-more";
 import Spinner from "../spinner/spinner";
 import Footer from "../footer/footer";
-import AuthorizedHeader from "../authorized-header/authorized-header";
-import UnauthorizedHeader from "../unathorized-header/unathorized-header";
+import Header from "../header/header";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
 import {fetchMoviesList, fetchPromoMovie} from "../../store/api-actions/api-actions";
@@ -25,7 +24,6 @@ const MainPage = (props) => {
     renderedMovies,
     isDataLoaded,
     onLoadData,
-    authorizationStatus,
     isPromoLoaded,
     onPromoLoad,
   } = props;
@@ -35,19 +33,13 @@ const MainPage = (props) => {
     onLoadData();
   }
 
-  useEffect(() => {
-    if (authorizationStatus === true) {
-      onPromoLoad();
-    }
-  }, []);
-
+  if (isPromoLoaded === false) {
+    onPromoLoad();
+  }
 
   return (
     <React.Fragment>
-      {authorizationStatus === true && isPromoLoaded === true
-        ? <AuthorizedHeader/>
-        : <UnauthorizedHeader/>
-      }
+      <Header/>
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>

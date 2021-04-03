@@ -4,10 +4,11 @@ import {connect} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 import {Routes} from "../../const/const";
 import {getMoviesList} from "../../store/movies-list-reducer/selectors";
+import {resetLoadMovieDetailsFlag} from "../../store/flag-actions/flag-actions";
 
 const Player = (props) => {
 
-  const {moviesList} = props;
+  const {moviesList, onExitClick} = props;
 
   const history = useHistory();
   const {id} = useParams();
@@ -57,6 +58,7 @@ const Player = (props) => {
           type="button"
           className="player__exit"
           onClick={() => {
+            onExitClick();
             history.push(Routes.MOVIE_PAGE + id);
           }}
         >Exit
@@ -71,11 +73,17 @@ Player.propTypes = {
   moviesList: PropTypes.arrayOf(PropTypes.shape({
     videoLink: PropTypes.string.isRequired,
   })),
+  onExitClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   moviesList: getMoviesList(state),
 });
 
-export default connect(mapStateToProps, null)(Player);
+const mapDispatchToProps = (dispatch) => ({
+  onExitClick() {
+    dispatch(resetLoadMovieDetailsFlag());
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
 

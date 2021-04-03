@@ -4,7 +4,7 @@ import SmallPlayer from "../small-player/small-player";
 import {useHistory, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Routes} from "../../const/const";
-import {resetLoadMovieDetailsFlag} from "../../store/flag-actions/flag-actions";
+import {changeReviewDataLoadFlag, resetLoadMovieDetailsFlag} from "../../store/flag-actions/flag-actions";
 
 
 const MovieCard = (props) => {
@@ -73,10 +73,10 @@ const MovieCard = (props) => {
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    previewVideoLink: PropTypes.string.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    previewVideoLink: PropTypes.string,
+    previewImage: PropTypes.string,
+    name: PropTypes.string,
   }),
   onMovieCardClick: PropTypes.func.isRequired,
 };
@@ -84,6 +84,7 @@ MovieCard.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   onMovieCardClick() {
     dispatch(resetLoadMovieDetailsFlag());
+    dispatch(changeReviewDataLoadFlag(false));
   },
 });
 
