@@ -6,7 +6,7 @@ import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import {changeMovieInListStatus} from "../../store/api-actions/api-actions";
 import {Routes, MyListStatus} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";
-import {getPromoMovie} from "../../store/movies-list/selectors";
+import {getPromoMovie} from "../../store/movies-list-reducer/selectors";
 
 const AuthorizedHeader = (props) => {
 

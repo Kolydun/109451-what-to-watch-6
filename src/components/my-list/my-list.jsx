@@ -8,7 +8,7 @@ import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import Spinner from "../spinner/spinner";
 import {fetchFavouriteMovies} from "../../store/api-actions/api-actions";
 import {Routes} from "../../const/const";
-import {getFavouriteMovies, getIsFavouriteMoviesLoaded} from "../../store/movies-list/selectors";
+import {getFavouriteMovies, getIsFavouriteMoviesLoaded} from "../../store/movies-list-reducer/selectors";
 
 const MyList = (props) => {
 

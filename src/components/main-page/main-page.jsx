@@ -15,8 +15,8 @@ import {
   getIsDataLoaded, getIsPromoLoaded,
   getMoviesList,
   getRenderedMovies,
-} from "../../store/movies-list/selectors";
-import {getAuthStatus} from "../../store/user/selectors";
+} from "../../store/movies-list-reducer/selectors";
+import {getAuthStatus} from "../../store/user-reducer/selectors";
 
 const MainPage = (props) => {
 

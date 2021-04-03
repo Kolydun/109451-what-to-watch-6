@@ -16,7 +16,7 @@ import {
   getDataForReviewPage,
   getIsDataForReviewPageLoaded, getIsReviewBlocked,
   getIsReviewSendCorrectly, getIsReviewSendError,
-} from "../../store/add-review-page/selectors";
+} from "../../store/add-review-reducer/selectors";
 
 const AddReview = (props) => {
 

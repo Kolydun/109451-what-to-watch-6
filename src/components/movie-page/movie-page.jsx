@@ -10,9 +10,9 @@ import Spinner from "../spinner/spinner";
 import UserBlock from "../header-user-block-authorized/authorized-user-block";
 import Footer from "../footer/footer";
 import {MyListStatus, Routes} from "../../const/const";
-import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-page/selectors";
-import {getMoviesList} from "../../store/movies-list/selectors";
-import {getAuthStatus} from "../../store/user/selectors";
+import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-pagre-ducer/selectors";
+import {getMoviesList} from "../../store/movies-list-reducer/selectors";
+import {getAuthStatus} from "../../store/user-reducer/selectors";
 
 const MoviePage = (props) => {
   const {onMovieDetailsLoad, movieDetails, isMovieDetailsLoaded, moviesList, authorizationStatus, onMyListChange} = props;

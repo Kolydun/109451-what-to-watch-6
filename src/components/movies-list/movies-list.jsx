@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
-import {getMoviesPerStepCounter, getRenderedMovies} from "../../store/movies-list/selectors";
+import {getMoviesPerStepCounter, getRenderedMovies} from "../../store/movies-list-reducer/selectors";
 
 const MoviesList = (props) => {
 

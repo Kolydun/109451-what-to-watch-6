@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 import {Routes} from "../../const/const";
-import {getMoviesList} from "../../store/movies-list/selectors";
+import {getMoviesList} from "../../store/movies-list-reducer/selectors";
 
 const Player = (props) => {
 

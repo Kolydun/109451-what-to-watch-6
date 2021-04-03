@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {Route, Redirect} from 'react-router-dom';
-import {getAuthStatus} from "../../store/user/selectors";
+import {getAuthStatus} from "../../store/user-reducer/selectors";
 
 const PrivateRoute = ({render, path, exact, authorizationStatus, redirectTo, neededAuthStatus}) => {
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {changeGenre, filterMovies, resetFilters} from "../../store/movie-actions/movie-actions";
-import {getGenre} from "../../store/movies-list/selectors";
+import {getGenre} from "../../store/movies-list-reducer/selectors";
 import {FiltersNames} from "../../const/const";
 
 
