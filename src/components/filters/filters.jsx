@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ActionCreator} from "../../store/action";
 import {connect} from 'react-redux';
+import {changeGenre, filterMovies, resetFilters} from "../../store/movie-actions/movie-actions";
+import {getGenre} from "../../store/movies-list-reducer/selectors";
+import {FiltersNames} from "../../const/const";
 
 
 const Filters = (props) => {
@@ -17,7 +19,7 @@ const Filters = (props) => {
           className="catalog__genres-link"
           onClick={(event) => {
             event.preventDefault();
-            if (filterName === `All films`) {
+            if (filterName === FiltersNames.ALL_FILMS) {
               onAllFilmsClick();
             } else {
               onFilterChange(filterName);
@@ -28,25 +30,25 @@ const Filters = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  genre: state.genre,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onFilterChange(newGenre) {
-    dispatch(ActionCreator.changeGenre(newGenre));
-    dispatch(ActionCreator.filterMovies());
-  },
-  onAllFilmsClick() {
-    dispatch(ActionCreator.resetFilters());
-  },
-});
-
 Filters.propTypes = {
   filterName: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onAllFilmsClick: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  genre: getGenre(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onFilterChange(newGenre) {
+    dispatch(changeGenre(newGenre));
+    dispatch(filterMovies());
+  },
+  onAllFilmsClick() {
+    dispatch(resetFilters());
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);

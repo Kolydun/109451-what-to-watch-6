@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import MoviesList from "../movies-list/movies-list";
 import {connect} from 'react-redux';
+import Footer from "../footer/footer";
+import UserBlock from "../authorized-header/authorized-user-block";
+import Spinner from "../spinner/spinner";
+import {fetchFavouriteMovies} from "../../store/api-actions/api-actions";
+import {Routes} from "../../const/const";
+import {getFavouriteMovies, getIsFavouriteMoviesLoaded} from "../../store/movies-list-reducer/selectors";
 
 const MyList = (props) => {
 
-  const {moviesList} = props;
+  const {isFavouriteMoviesLoaded, favouriteMovies, onFavouriteListLoad} = props;
+
+  useEffect(() => {
+    onFavouriteListLoad();
+  }, []);
+
 
   return (
     <React.Fragment>
@@ -46,7 +57,7 @@ const MyList = (props) => {
       <div className="user-page">
         <header className="page-header user-page__head">
           <div className="logo">
-            <Link to="/" className="logo__link">
+            <Link to={Routes.HOME_PAGE} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -55,45 +66,41 @@ const MyList = (props) => {
 
           <h1 className="page-title user-page__title">My list</h1>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-            </div>
-          </div>
+          {<UserBlock/>}
         </header>
 
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            {<MoviesList moviesList={moviesList}/>}
+            {isFavouriteMoviesLoaded === false
+              ? <Spinner/>
+              : <MoviesList moviesList={favouriteMovies}/>
+            }
           </div>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to="/" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        {<Footer/>}
       </div>
     </React.Fragment>
   );
 };
 
-const mapStateToProps = (state) => ({
-  moviesList: state.moviesList,
-});
-
 MyList.propTypes = {
-  moviesList: PropTypes.array.isRequired,
+  isFavouriteMoviesLoaded: PropTypes.bool.isRequired,
+  favouriteMovies: PropTypes.arrayOf(PropTypes.object),
+  onFavouriteListLoad: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(MyList);
+const mapStateToProps = (state) => ({
+  isFavouriteMoviesLoaded: getIsFavouriteMoviesLoaded(state),
+  favouriteMovies: getFavouriteMovies(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onFavouriteListLoad() {
+    dispatch(fetchFavouriteMovies());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyList);

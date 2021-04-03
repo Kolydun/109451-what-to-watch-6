@@ -43,7 +43,7 @@ const Details = (props) => {
         <div className="movie-card__text-col">
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Run Time</strong>
-            <span className="movie-card__details-value">{runTime(movie.run_time)}</span>
+            <span className="movie-card__details-value">{runTime(movie.runTime)}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Genre</strong>
@@ -60,7 +60,13 @@ const Details = (props) => {
 };
 
 Details.propTypes = {
-  movie: PropTypes.object.isRequired
+  movie: PropTypes.shape({
+    director: PropTypes.string,
+    starring: PropTypes.arrayOf(PropTypes.string),
+    runTime: PropTypes.number,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+  }),
 };
 
 export default Details;

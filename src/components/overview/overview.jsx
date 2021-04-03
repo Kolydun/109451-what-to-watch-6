@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-
+import {Ratings, RatingsNames} from "../../const/const";
 
 const Overview = (props) => {
 
@@ -8,18 +8,18 @@ const Overview = (props) => {
 
   const ratingLevel = (rating) => {
     let stringRating = ``;
-    if (rating >= 0 && rating <= 3.9) {
-      stringRating = `Bad`;
-    } else if (rating >= 4 && rating <= 5.9) {
-      stringRating = `Normal`;
-    } else if (rating > 5.9 && rating <= 8.9) {
-      stringRating = `Good`;
-    } else if (rating > 8.9 && rating < 10) {
-      stringRating = `Very good`;
-    } else if (rating === 10) {
-      stringRating = `Awesome`;
+    if (rating >= Ratings.BAD_LOWEST && rating <= Ratings.BAD_HIGHEST) {
+      stringRating = RatingsNames.BAD;
+    } else if (rating >= Ratings.NORMAL_LOWEST && rating <= Ratings.NORMAL_HIGHEST) {
+      stringRating = RatingsNames.NORMAL;
+    } else if (rating > Ratings.GOOD_LOWEST && rating <= Ratings.GOOD_HIGHEST) {
+      stringRating = RatingsNames.GOOD;
+    } else if (rating > Ratings.VERY_GOOD_GRADE && rating < Ratings.AWESOME_GRADE) {
+      stringRating = RatingsNames.VERY_GOOD;
+    } else if (rating === Ratings.AWESOME_GRADE) {
+      stringRating = RatingsNames.AWESOME;
     } else {
-      stringRating = `N/A`;
+      stringRating = Ratings.NO_RATING;
     }
 
     return stringRating;
@@ -31,7 +31,7 @@ const Overview = (props) => {
         <div className="movie-rating__score">{movie.rating}</div>
         <p className="movie-rating__meta">
           <span className="movie-rating__level">{ratingLevel(movie.rating)}</span>
-          <span className="movie-rating__count">{movie.scores_count} ratings</span>
+          <span className="movie-rating__count">{movie.scoresCount} ratings</span>
         </p>
       </div>
 
@@ -47,7 +47,13 @@ const Overview = (props) => {
 };
 
 Overview.propTypes = {
-  movie: PropTypes.object.isRequired
+  movie: PropTypes.shape({
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default Overview;

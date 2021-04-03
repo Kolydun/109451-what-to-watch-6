@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {ActionCreator} from "../../store/action";
 import PropTypes from "prop-types";
+import {increaseRenderedFilmsCount} from "../../store/movie-actions/movie-actions";
 
 const ShowMore = (props) => {
 
@@ -24,15 +24,14 @@ const ShowMore = (props) => {
   );
 };
 
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadMoreClick() {
-    dispatch(ActionCreator.increaseRenderedFilmsCount());
-  },
-});
-
 ShowMore.propTypes = {
   onLoadMoreClick: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadMoreClick() {
+    dispatch(increaseRenderedFilmsCount());
+  },
+});
 
 export default connect(null, mapDispatchToProps)(ShowMore);

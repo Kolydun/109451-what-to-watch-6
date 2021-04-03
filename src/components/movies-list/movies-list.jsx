@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
+import {getMoviesPerStepCounter, getRenderedMovies} from "../../store/movies-list-reducer/selectors";
 
 const MoviesList = (props) => {
 
@@ -24,14 +25,14 @@ const MoviesList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  renderedMovies: state.renderedMovies,
-  moviesPerStepCounter: state.moviesPerStepCounter,
-});
-
 MoviesList.propTypes = {
-  moviesList: PropTypes.array.isRequired,
+  moviesList: PropTypes.arrayOf(PropTypes.object),
   renderedMovies: PropTypes.number.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  renderedMovies: getRenderedMovies(state),
+  moviesPerStepCounter: getMoviesPerStepCounter(state),
+});
 
 export default connect(mapStateToProps, null)(MoviesList);

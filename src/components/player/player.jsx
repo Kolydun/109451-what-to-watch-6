@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
+import {Routes} from "../../const/const";
+import {getMoviesList} from "../../store/movies-list-reducer/selectors";
+import {resetLoadMovieDetailsFlag} from "../../store/flag-actions/flag-actions";
 
 const Player = (props) => {
 
-  const {moviesList} = props;
+  const {moviesList, onExitClick} = props;
+
   const history = useHistory();
+  const {id} = useParams();
 
   return (
     <React.Fragment>
@@ -44,15 +49,17 @@ const Player = (props) => {
       </div>
 
       <div className="player">
-        <video src={moviesList[0].video_link} className="player__video" poster="img/player-poster.jpg" controls>
-          <source src={moviesList[0].video_link} type="video/webm"/>
+        <video src={moviesList[id].videoLink} className="player__video" poster="img/player-poster.jpg" controls
+          autoPlay>
+          <source src={moviesList[id].videoLink} type="video/webm"/>
         </video>
 
         <button
           type="button"
           className="player__exit"
           onClick={() => {
-            history.push(`/`);
+            onExitClick();
+            history.push(Routes.MOVIE_PAGE + id);
           }}
         >Exit
         </button>
@@ -62,13 +69,21 @@ const Player = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  moviesList: state.moviesList,
-});
-
 Player.propTypes = {
-  moviesList: PropTypes.array.isRequired,
+  moviesList: PropTypes.arrayOf(PropTypes.shape({
+    videoLink: PropTypes.string.isRequired,
+  })),
+  onExitClick: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Player);
+const mapStateToProps = (state) => ({
+  moviesList: getMoviesList(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onExitClick() {
+    dispatch(resetLoadMovieDetailsFlag());
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
 

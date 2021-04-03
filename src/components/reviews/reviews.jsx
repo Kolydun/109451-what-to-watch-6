@@ -2,20 +2,23 @@ import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 import Review from "../review/review";
 import {nanoid} from "nanoid";
-import {fetchComments} from "../../api-actions/api-actions";
+import {fetchComments} from "../../store/api-actions/api-actions";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
-import Spinner from "../loading-spinner/loading-spinner";
-
+import Spinner from "../spinner/spinner";
+import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page-reducer/selectors";
 
 const Reviews = (props) => {
 
   const {isMovieCommentsLoaded, onMovieCommentsLoad, movieComments} = props;
   const {id} = useParams();
 
-  if (isMovieCommentsLoaded === false) {
-    useEffect(() => onMovieCommentsLoad(id), []);
-  }
+  useEffect(() => {
+    if (isMovieCommentsLoaded === false) {
+      onMovieCommentsLoad(id);
+    }
+  }, []);
+
 
   return (
     isMovieCommentsLoaded === false
@@ -34,9 +37,15 @@ const Reviews = (props) => {
   );
 };
 
+Reviews.propTypes = {
+  onMovieCommentsLoad: PropTypes.func.isRequired,
+  movieComments: PropTypes.arrayOf(PropTypes.object),
+  isMovieCommentsLoaded: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = (state) => ({
-  isMovieCommentsLoaded: state.isMovieCommentsLoaded,
-  movieComments: state.movieComments,
+  isMovieCommentsLoaded: getIsMovieCommentsLoaded(state),
+  movieComments: getMovieComments(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -44,11 +53,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchComments(movieId));
   },
 });
-
-Reviews.propTypes = {
-  onMovieCommentsLoad: PropTypes.func.isRequired,
-  movieComments: PropTypes.array.isRequired,
-  isMovieCommentsLoaded: PropTypes.bool.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

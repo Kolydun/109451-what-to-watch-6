@@ -3,7 +3,9 @@ import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {login} from "../../api-actions/api-actions";
+import {login} from "../../store/api-actions/api-actions";
+import Footer from "../footer/footer";
+import {Routes} from "../../const/const";
 
 const SignIn = ({onSubmit}) => {
 
@@ -18,7 +20,7 @@ const SignIn = ({onSubmit}) => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     });
-    history.push(`/`);
+    history.push(Routes.HOME_PAGE);
   };
 
   return (
@@ -59,7 +61,7 @@ const SignIn = ({onSubmit}) => {
       <div className="user-page">
         <header className="page-header user-page__head">
           <div className="logo">
-            <Link to="/" className="logo__link">
+            <Link to={Routes.HOME_PAGE} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -95,6 +97,7 @@ const SignIn = ({onSubmit}) => {
                   name="user-password"
                   id="user-password"
                   ref={passwordRef}
+                  required
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>
@@ -110,34 +113,21 @@ const SignIn = ({onSubmit}) => {
           </form>
         </div>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to="/" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        {<Footer/>}
       </div>
     </React.Fragment>
   );
 };
 
+SignIn.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(authData) {
     dispatch(login(authData));
-  }
+  },
 });
-
-SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export {SignIn};
 export default connect(null, mapDispatchToProps)(SignIn);
