@@ -34,5 +34,4 @@ const mapStateToProps = (state) => ({
   authorizationStatus: getAuthStatus(state),
 });
 
-
 export default connect(mapStateToProps, null)(PrivateRoute);

@@ -119,16 +119,15 @@ const SignIn = ({onSubmit}) => {
   );
 };
 
+SignIn.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(authData) {
     dispatch(login(authData));
   },
 });
-
-SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export {SignIn};
 export default connect(null, mapDispatchToProps)(SignIn);

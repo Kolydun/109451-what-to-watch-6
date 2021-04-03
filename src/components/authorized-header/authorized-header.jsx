@@ -89,6 +89,12 @@ const AuthorizedHeader = (props) => {
   );
 };
 
+AuthorizedHeader.propTypes = {
+  promoMovie: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onMyListChange: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   promoMovie: getPromoMovie(state),
 });
@@ -101,12 +107,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeMovieInListStatus(movieData));
   },
 });
-
-AuthorizedHeader.propTypes = {
-  promoMovie: PropTypes.object.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  onMyListChange: PropTypes.func.isRequired,
-
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorizedHeader);

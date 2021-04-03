@@ -185,6 +185,15 @@ const MoviePage = (props) => {
   );
 };
 
+MoviePage.propTypes = {
+  moviesList: PropTypes.arrayOf(PropTypes.object),
+  onMovieDetailsLoad: PropTypes.func.isRequired,
+  movieDetails: PropTypes.object.isRequired,
+  isMovieDetailsLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired,
+  onMyListChange: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   movieDetails: getMovieDetails(state),
   isMovieDetailsLoaded: getIsMovieDetailsLoaded(state),
@@ -201,14 +210,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeMovieInListStatus(movieData));
   },
 });
-
-MoviePage.propTypes = {
-  moviesList: PropTypes.array.isRequired,
-  onMovieDetailsLoad: PropTypes.func.isRequired,
-  movieDetails: PropTypes.object.isRequired,
-  isMovieDetailsLoaded: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired,
-  onMyListChange: PropTypes.func.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);

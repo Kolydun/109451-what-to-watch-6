@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {Ratings, RatingsNames} from "../../const/const";
 
-
 const Overview = (props) => {
 
   const {movie} = props;

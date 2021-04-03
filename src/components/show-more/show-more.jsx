@@ -24,15 +24,14 @@ const ShowMore = (props) => {
   );
 };
 
+ShowMore.propTypes = {
+  onLoadMoreClick: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadMoreClick() {
     dispatch(increaseRenderedFilmsCount());
   },
 });
-
-ShowMore.propTypes = {
-  onLoadMoreClick: PropTypes.func.isRequired,
-};
 
 export default connect(null, mapDispatchToProps)(ShowMore);

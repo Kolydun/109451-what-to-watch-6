@@ -224,6 +224,17 @@ const AddReview = (props) => {
   );
 };
 
+AddReview.propTypes = {
+  dataForReviewPage: PropTypes.object.isRequired,
+  onReviewLoad: PropTypes.func.isRequired,
+  isDataForReviewPageLoaded: PropTypes.bool.isRequired,
+  isReviewSendCorrectly: PropTypes.bool.isRequired,
+  isReviewBlocked: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isReviewSendError: PropTypes.bool.isRequired,
+  onReviewSend: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   dataForReviewPage: getDataForReviewPage(state),
   isDataForReviewPageLoaded: getIsDataForReviewPageLoaded(state),
@@ -245,17 +256,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeCommentsLoadFlag(false));
   },
 });
-
-AddReview.propTypes = {
-  dataForReviewPage: PropTypes.object.isRequired,
-  onReviewLoad: PropTypes.func.isRequired,
-  isDataForReviewPageLoaded: PropTypes.bool.isRequired,
-  isReviewSendCorrectly: PropTypes.bool.isRequired,
-  isReviewBlocked: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  isReviewSendError: PropTypes.bool.isRequired,
-  onReviewSend: PropTypes.func.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddReview);
 

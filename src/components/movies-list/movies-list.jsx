@@ -25,14 +25,14 @@ const MoviesList = (props) => {
   );
 };
 
+MoviesList.propTypes = {
+  moviesList: PropTypes.arrayOf(PropTypes.object),
+  renderedMovies: PropTypes.number.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   renderedMovies: getRenderedMovies(state),
   moviesPerStepCounter: getMoviesPerStepCounter(state),
 });
-
-MoviesList.propTypes = {
-  moviesList: PropTypes.array.isRequired,
-  renderedMovies: PropTypes.number.isRequired,
-};
 
 export default connect(mapStateToProps, null)(MoviesList);

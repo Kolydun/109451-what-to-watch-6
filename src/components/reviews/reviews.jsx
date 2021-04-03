@@ -8,7 +8,6 @@ import {useParams} from "react-router-dom";
 import Spinner from "../spinner/spinner";
 import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page/selectors";
 
-
 const Reviews = (props) => {
 
   const {isMovieCommentsLoaded, onMovieCommentsLoad, movieComments} = props;
@@ -38,6 +37,12 @@ const Reviews = (props) => {
   );
 };
 
+Reviews.propTypes = {
+  onMovieCommentsLoad: PropTypes.func.isRequired,
+  movieComments: PropTypes.arrayOf(PropTypes.object),
+  isMovieCommentsLoaded: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   isMovieCommentsLoaded: getIsMovieCommentsLoaded(state),
   movieComments: getMovieComments(state),
@@ -48,11 +53,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchComments(movieId));
   },
 });
-
-Reviews.propTypes = {
-  onMovieCommentsLoad: PropTypes.func.isRequired,
-  movieComments: PropTypes.array.isRequired,
-  isMovieCommentsLoaded: PropTypes.bool.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

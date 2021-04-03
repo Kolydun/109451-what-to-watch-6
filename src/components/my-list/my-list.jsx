@@ -86,21 +86,21 @@ const MyList = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onFavouriteListLoad() {
-    dispatch(fetchFavouriteMovies());
-  },
-});
+MyList.propTypes = {
+  isFavouriteMoviesLoaded: PropTypes.bool.isRequired,
+  favouriteMovies: PropTypes.arrayOf(PropTypes.object),
+  onFavouriteListLoad: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   isFavouriteMoviesLoaded: getIsFavouriteMoviesLoaded(state),
   favouriteMovies: getFavouriteMovies(state),
 });
 
-MyList.propTypes = {
-  isFavouriteMoviesLoaded: PropTypes.bool.isRequired,
-  favouriteMovies: PropTypes.array.isRequired,
-  onFavouriteListLoad: PropTypes.func.isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  onFavouriteListLoad() {
+    dispatch(fetchFavouriteMovies());
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyList);

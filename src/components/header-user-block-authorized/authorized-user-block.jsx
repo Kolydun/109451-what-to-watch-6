@@ -51,7 +51,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-
 AuthorizedUserBlock.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onLogOut: PropTypes.func.isRequired,

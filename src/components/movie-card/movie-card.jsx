@@ -71,17 +71,16 @@ const MovieCard = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onMovieCardClick() {
-    dispatch(resetLoadMovieDetailsFlag());
-  },
-});
-
 MovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
   onMovieCardClick: PropTypes.func.isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onMovieCardClick() {
+    dispatch(resetLoadMovieDetailsFlag());
+  },
+});
 
 export default connect(null, mapDispatchToProps)(MovieCard);
 

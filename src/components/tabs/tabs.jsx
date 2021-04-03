@@ -5,7 +5,6 @@ import Details from "../details/details";
 import Reviews from "../reviews/reviews";
 import {TabsNames} from "../../const/const";
 
-
 const Tabs = (props) => {
 
   const [whichTab, setWhichTab] = useState(`overview`);

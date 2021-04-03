@@ -65,13 +65,13 @@ const Player = (props) => {
   );
 };
 
+Player.propTypes = {
+  moviesList: PropTypes.arrayOf(PropTypes.object),
+};
+
 const mapStateToProps = (state) => ({
   moviesList: getMoviesList(state),
 });
-
-Player.propTypes = {
-  moviesList: PropTypes.array.isRequired,
-};
 
 export default connect(mapStateToProps, null)(Player);
 

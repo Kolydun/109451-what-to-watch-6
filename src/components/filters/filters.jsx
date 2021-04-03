@@ -30,6 +30,13 @@ const Filters = (props) => {
   );
 };
 
+Filters.propTypes = {
+  filterName: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
+  onAllFilmsClick: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   genre: getGenre(state),
 });
@@ -43,12 +50,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(resetFilters());
   },
 });
-
-Filters.propTypes = {
-  filterName: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
-  onAllFilmsClick: PropTypes.func.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filters);
