@@ -49,11 +49,11 @@ const MovieCard = (props) => {
         }}
       >
         {isPreviewPlaying.status ? (
-          <SmallPlayer videoLink={movie.preview_video_link} isMuted={true}/>
+          <SmallPlayer videoLink={movie.previewVideoLink} isMuted={true}/>
         ) : (
           <React.Fragment>
             <div className="small-movie-card__image">
-              <img src={movie.preview_image} alt="Bohemian Rhapsody" width="280" height="175"/>
+              <img src={movie.previewImage} alt="Bohemian Rhapsody" width="280" height="175"/>
             </div>
             <h3
               className="small-movie-card__title"
@@ -72,7 +72,12 @@ const MovieCard = (props) => {
 };
 
 MovieCard.propTypes = {
-  movie: PropTypes.object.isRequired,
+  movie: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    previewVideoLink: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
   onMovieCardClick: PropTypes.func.isRequired,
 };
 

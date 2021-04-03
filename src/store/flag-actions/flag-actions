@@ -5,6 +5,7 @@ export const FlagActionType = {
   CHANGE_REVIEW_SEND_FLAG: `flag/change-review-send-flag`,
   CHANGE_REVIEW_SEND_ERROR_FLAG: `flag/change-review-send-error-flag`,
   CHANGE_FAVOURITE_MOVIES_LOAD_FLAG: `flag/change-favourite-movies-load-flag`,
+  CHANGE_MOVIE_DETAILS_LOAD_FLAG: `flag/change-movie-details-flag`,
 };
 
 export const resetLoadMovieDetailsFlag = () => ({
@@ -33,5 +34,10 @@ export const changeReviewSendErrorFlag = (flag) => ({
 
 export const changeFavouriteLoadFlag = (flag) => ({
   type: FlagActionType.CHANGE_FAVOURITE_MOVIES_LOAD_FLAG,
+  payload: flag,
+});
+
+export const changeMovieDetailsLoadFlag = (flag) => ({
+  type: FlagActionType.CHANGE_MOVIE_DETAILS_LOAD_FLAG,
   payload: flag,
 });

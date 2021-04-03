@@ -18,7 +18,7 @@ const AuthorizedHeader = (props) => {
     <React.Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src={promoMovie.background_image} alt="The Grand Budapest Hotel"/>
+          <img src={promoMovie.backgroundImage} alt="The Grand Budapest Hotel"/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -39,7 +39,7 @@ const AuthorizedHeader = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src={promoMovie.poster_image} alt={promoMovie.name + `poster`} width="218" height="327"/>
+              <img src={promoMovie.posterImage} alt={promoMovie.name + `poster`} width="218" height="327"/>
             </div>
 
             <div className="movie-card__desc">
@@ -67,9 +67,9 @@ const AuthorizedHeader = (props) => {
                   type="button"
                   onClick={() => {
                     onPageChange();
-                    if (promoMovie.is_favorite === true) {
+                    if (promoMovie.isFavorite === true) {
                       onMyListChange({id: promoMovie.id, status: MyListStatus.REMOVE});
-                    } else if (promoMovie.is_favorite === false) {
+                    } else if (promoMovie.isFavorite === false) {
                       onMyListChange({id: promoMovie.id, status: MyListStatus.ADD});
                     }
                   }
@@ -90,7 +90,15 @@ const AuthorizedHeader = (props) => {
 };
 
 AuthorizedHeader.propTypes = {
-  promoMovie: PropTypes.object.isRequired,
+  promoMovie: PropTypes.shape({
+    backgroundImage: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+  }),
   onPageChange: PropTypes.func.isRequired,
   onMyListChange: PropTypes.func.isRequired,
 };

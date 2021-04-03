@@ -116,10 +116,10 @@ const AddReview = (props) => {
           {/* endinject*/}
         </div>
 
-        <section className="movie-card movie-card--full" style={{backgroundColor: dataForReviewPage.background_color}}>
+        <section className="movie-card movie-card--full" style={{backgroundColor: dataForReviewPage.backgroundColor}}>
           <div className="movie-card__header">
             <div className="movie-card__bg">
-              <img src={dataForReviewPage.background_image} alt="The Grand Budapest Hotel"/>
+              <img src={dataForReviewPage.backgroundImage} alt="The Grand Budapest Hotel"/>
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
@@ -148,7 +148,7 @@ const AddReview = (props) => {
             </header>
 
             <div className="movie-card__poster movie-card__poster--small">
-              <img src={dataForReviewPage.poster_image} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={dataForReviewPage.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
             </div>
           </div>
 
@@ -225,7 +225,12 @@ const AddReview = (props) => {
 };
 
 AddReview.propTypes = {
-  dataForReviewPage: PropTypes.object.isRequired,
+  dataForReviewPage: PropTypes.shape({
+    backgroundColor: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+  }),
   onReviewLoad: PropTypes.func.isRequired,
   isDataForReviewPageLoaded: PropTypes.bool.isRequired,
   isReviewSendCorrectly: PropTypes.bool.isRequired,

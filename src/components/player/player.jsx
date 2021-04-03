@@ -8,8 +8,10 @@ import {getMoviesList} from "../../store/movies-list-reducer/selectors";
 const Player = (props) => {
 
   const {moviesList} = props;
+
   const history = useHistory();
   const {id} = useParams();
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -46,9 +48,9 @@ const Player = (props) => {
       </div>
 
       <div className="player">
-        <video src={moviesList[0].video_link} className="player__video" poster="img/player-poster.jpg" controls
+        <video src={moviesList[id].videoLink} className="player__video" poster="img/player-poster.jpg" controls
           autoPlay>
-          <source src={moviesList[0].video_link} type="video/webm"/>
+          <source src={moviesList[id].videoLink} type="video/webm"/>
         </video>
 
         <button
@@ -66,7 +68,9 @@ const Player = (props) => {
 };
 
 Player.propTypes = {
-  moviesList: PropTypes.arrayOf(PropTypes.object),
+  moviesList: PropTypes.arrayOf(PropTypes.shape({
+    videoLink: PropTypes.string.isRequired,
+  })),
 };
 
 const mapStateToProps = (state) => ({

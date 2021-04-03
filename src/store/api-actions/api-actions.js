@@ -12,6 +12,7 @@ import {
   changeReviewBlockFlag,
   changeReviewSendErrorFlag,
   changeFavouriteLoadFlag,
+  changeMovieDetailsLoadFlag,
 } from "../flag-actions/flag-actions";
 import {changeAuthorizationStatus} from "../movie-actions/movie-actions";
 
@@ -40,6 +41,7 @@ export const fetchPromoMovie = () => (dispatch, _getState, api) => (
 export const fetchMovieDetails = (id) => (dispatch, _getState, api) => (
   api.get(BackendRoutes.MOVIE_DETAILS + id)
     .then(({data}) => dispatch(loadMovieDetails(data)))
+    .then(() => dispatch(changeMovieDetailsLoadFlag(true)))
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (

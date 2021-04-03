@@ -31,7 +31,7 @@ const Overview = (props) => {
         <div className="movie-rating__score">{movie.rating}</div>
         <p className="movie-rating__meta">
           <span className="movie-rating__level">{ratingLevel(movie.rating)}</span>
-          <span className="movie-rating__count">{movie.scores_count} ratings</span>
+          <span className="movie-rating__count">{movie.scoresCount} ratings</span>
         </p>
       </div>
 
@@ -47,7 +47,13 @@ const Overview = (props) => {
 };
 
 Overview.propTypes = {
-  movie: PropTypes.object.isRequired,
+  movie: PropTypes.shape({
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default Overview;

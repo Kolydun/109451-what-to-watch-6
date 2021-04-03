@@ -77,10 +77,10 @@ const MoviePage = (props) => {
           {/* endinject*/}
         </div>
 
-        <section className="movie-card movie-card--full" style={{backgroundColor: movieDetails.background_color}}>
+        <section className="movie-card movie-card--full" style={{backgroundColor: `` + movieDetails.colorOfBackground}}>
           <div className="movie-card__hero">
             <div className="movie-card__bg">
-              <img src={movieDetails.background_image} alt="The Grand Budapest Hotel"/>
+              <img src={movieDetails.backgroundImage} alt={movieDetails.name}/>
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
@@ -124,9 +124,9 @@ const MoviePage = (props) => {
                     className="btn btn--list movie-card__button"
                     type="button"
                     onClick={() => {
-                      if (authorizationStatus === true && movieDetails.is_favorite === true) {
+                      if (authorizationStatus === true && movieDetails.isFavorite === true) {
                         onMyListChange({id: movieDetails.id, status: MyListStatus.REMOVE});
-                      } else if (authorizationStatus === true && movieDetails.is_favorite === false) {
+                      } else if (authorizationStatus === true && movieDetails.isFavorite === false) {
                         onMyListChange({id: movieDetails.id, status: MyListStatus.ADD});
                       } else {
                         history.push(Routes.LOGIN);
@@ -152,7 +152,7 @@ const MoviePage = (props) => {
           <div className="movie-card__wrap movie-card__translate-top">
             <div className="movie-card__info">
               <div className="movie-card__poster movie-card__poster--big">
-                <img src={movieDetails.poster_image} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+                <img src={movieDetails.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
               </div>
 
               <div className="movie-card__desc">
@@ -186,12 +186,26 @@ const MoviePage = (props) => {
 };
 
 MoviePage.propTypes = {
-  moviesList: PropTypes.arrayOf(PropTypes.object),
-  onMovieDetailsLoad: PropTypes.func.isRequired,
-  movieDetails: PropTypes.object.isRequired,
   isMovieDetailsLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   onMyListChange: PropTypes.func.isRequired,
+  moviesList: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        genre: PropTypes.string.isRequired,
+      })
+  ),
+  onMovieDetailsLoad: PropTypes.func.isRequired,
+  movieDetails: PropTypes.shape({
+    backgroundImage: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    colorOfBackground: PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = (state) => ({

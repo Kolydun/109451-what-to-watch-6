@@ -36,9 +36,7 @@ const App = () => {
         <Route exact path={Routes.PLAYER + `:id?`}>
           <Player/>
         </Route>
-        <Route exact path={Routes.MOVIE_PAGE + `:id`}>
-          <MoviePage/>
-        </Route>
+        <Route exact path={Routes.MOVIE_PAGE + `:id`} component={MoviePage}/>
         <PrivateRoute
           exact
           path={Routes.MOVIE_PAGE + `:id` + Routes.ADD_REVIEW}
