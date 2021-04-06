@@ -71,6 +71,7 @@ export const HttpCode = {
   NOT_FOUND: 404,
 };
 
-export const commentsColCount = {
-  COMMENTS_IN_COL: 3,
+export const CommentsColumnsDetectors = {
+  REMAINDER_DETECTOR: 2,
+  REMAINDER_CHECK: 0,
 };

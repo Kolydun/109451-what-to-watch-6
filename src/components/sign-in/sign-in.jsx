@@ -100,7 +100,6 @@ const SignIn = (props) => {
                   name="user-email"
                   id="user-email"
                   ref={emailRef}
-                  // pattern='^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
                   required
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>

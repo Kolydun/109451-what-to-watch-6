@@ -19,12 +19,8 @@ const Header = (props) => {
   const [movieInList, setMovieInList] = useState(promoMovie.isFavorite);
 
   useEffect(() => {
-    if (promoMovie.isFavorite === true) {
-      setMovieInList(true);
-    } else if (promoMovie.isFavorite === false) {
-      setMovieInList(false);
-    }
-  }, [onMyListChange]);
+    setMovieInList(promoMovie.isFavorite);
+  }, [promoMovie]);
 
   return (
     <React.Fragment>

@@ -5,13 +5,18 @@ import {nanoid} from "nanoid";
 import {fetchComments} from "../../store/api-actions/api-actions";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
+import {CommentsColumnsDetectors} from "../../const/const";
 import Spinner from "../spinner/spinner";
-import {commentsColCount} from "../../const/const";
 import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page-reducer/selectors";
 
 const Reviews = (props) => {
 
   const {isMovieCommentsLoaded, onMovieCommentsLoad, movieComments} = props;
+  const commentsForRightColumn = movieComments.filter((comment) =>
+    comment.id % CommentsColumnsDetectors.REMAINDER_DETECTOR === CommentsColumnsDetectors.REMAINDER_CHECK);
+  const commentsForLeftColumn = movieComments.filter((comment) =>
+    comment.id % CommentsColumnsDetectors.REMAINDER_DETECTOR !== CommentsColumnsDetectors.REMAINDER_CHECK);
+
   const {id} = useParams();
 
   useEffect(() => {
@@ -20,14 +25,13 @@ const Reviews = (props) => {
     }
   }, []);
 
-
   return (
     isMovieCommentsLoaded === false
       ? <Spinner/>
       : <React.Fragment>
         <div className="movie-card__reviews movie-card__row">
           <div className="movie-card__reviews-col">
-            {movieComments.slice(0, commentsColCount.COMMENTS_IN_COL).map((comment) =>
+            {commentsForLeftColumn.map((comment) =>
               <Review
                 key={nanoid()}
                 userReview={comment}
@@ -35,7 +39,7 @@ const Reviews = (props) => {
           </div>
 
           <div className="movie-card__reviews-col">
-            {movieComments.slice(commentsColCount.COMMENTS_IN_COL + 1, commentsColCount.COMMENTS_IN_COL * 2).map((comment) =>
+            {commentsForRightColumn.map((comment) =>
               <Review
                 key={nanoid()}
                 userReview={comment}

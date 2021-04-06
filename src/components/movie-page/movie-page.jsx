@@ -5,17 +5,30 @@ import PropTypes from "prop-types";
 import MovieCard from "../movie-card/movie-card";
 import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
-import {changeMovieInListStatus, fetchMovieDetails, fetchMoviesList} from "../../store/api-actions/api-actions";
+import {
+  changeMovieInListStatus,
+  fetchMovieDetails,
+  fetchMoviesList,
+  fetchPromoMovie,
+} from "../../store/api-actions/api-actions";
 import Spinner from "../spinner/spinner";
 import UserBlock from "../authorized-user-block/authorized-user-block";
 import Footer from "../footer/footer";
 import {MyListStatus, Routes} from "../../const/const";
 import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-page-reducer/selectors";
-import {getMoviesList} from "../../store/movies-list-reducer/selectors";
+import {getMoviesList, getPromoMovie} from "../../store/movies-list-reducer/selectors";
 import {getAuthStatus} from "../../store/user-reducer/selectors";
 
 const MoviePage = (props) => {
-  const {onMovieDetailsLoad, movieDetails, isMovieDetailsLoaded, moviesList, authorizationStatus, onMyListChange} = props;
+  const {onMovieDetailsLoad,
+    movieDetails,
+    isMovieDetailsLoaded,
+    moviesList,
+    authorizationStatus,
+    onMyListChange,
+    promoMovie,
+    onPromoLogoClick,
+  } = props;
 
   const {id} = useParams();
   const history = useHistory();
@@ -98,11 +111,21 @@ const MoviePage = (props) => {
 
             <header className="page-header movie-card__head">
               <div className="logo">
-                <Link to={Routes.HOME_PAGE} className="logo__link">
+                <a
+                  className="logo__link"
+                  onClick={() => {
+                    if (promoMovie.id === movieDetails.id) {
+                      onPromoLogoClick();
+                      history.push(Routes.HOME_PAGE);
+                    } else {
+                      history.push(Routes.HOME_PAGE);
+                    }
+                  }}
+                >
                   <span className="logo__letter logo__letter--1">W</span>
                   <span className="logo__letter logo__letter--2">T</span>
                   <span className="logo__letter logo__letter--3">W</span>
-                </Link>
+                </a>
               </div>
 
               {authorizationStatus === true
@@ -207,6 +230,7 @@ MoviePage.propTypes = {
   isMovieDetailsLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   onMyListChange: PropTypes.func.isRequired,
+  onPromoLogoClick: PropTypes.func.isRequired,
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
@@ -224,6 +248,9 @@ MoviePage.propTypes = {
     posterImage: PropTypes.string,
     backgroundColor: PropTypes.string,
   }),
+  promoMovie: PropTypes.shape({
+    id: PropTypes.number
+  }),
 };
 
 const mapStateToProps = (state) => ({
@@ -231,6 +258,7 @@ const mapStateToProps = (state) => ({
   isMovieDetailsLoaded: getIsMovieDetailsLoaded(state),
   moviesList: getMoviesList(state),
   authorizationStatus: getAuthStatus(state),
+  promoMovie: getPromoMovie(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -241,6 +269,9 @@ const mapDispatchToProps = (dispatch) => ({
   onMyListChange(movieData) {
     dispatch(changeMovieInListStatus(movieData));
   },
+  onPromoLogoClick() {
+    dispatch(fetchPromoMovie());
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);

@@ -1,5 +1,5 @@
-import React from 'react';
-import {logout} from "../../store/api-actions/api-actions";
+import React, {useEffect} from 'react';
+import {checkAuth, logout} from "../../store/api-actions/api-actions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {useHistory} from 'react-router-dom';
@@ -9,9 +9,13 @@ import {getUserInformation} from "../../store/user-reducer/selectors";
 
 const AuthorizedUserBlock = (props) => {
 
-  const {onPageChange, onLogOut, userInformation} = props;
+  const {onPageChange, onLogOut, userInformation, onUserInformationLoad} = props;
+
   const history = useHistory();
 
+  useEffect(() => {
+    onUserInformationLoad();
+  }, [userInformation]);
 
   return (
     <React.Fragment>
@@ -46,6 +50,7 @@ const AuthorizedUserBlock = (props) => {
 AuthorizedUserBlock.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onLogOut: PropTypes.func.isRequired,
+  onUserInformationLoad: PropTypes.func.isRequired,
   userInformation: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
@@ -64,6 +69,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLogOut() {
     dispatch(logout());
+  },
+  onUserInformationLoad() {
+    dispatch(checkAuth());
   },
 });
 
