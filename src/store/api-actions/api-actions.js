@@ -4,7 +4,7 @@ import {
   loadMovieDetails,
   loadMovieComments,
   loadDataForReview,
-  loadFavouriteMovies,
+  loadFavouriteMovies, loadUserInformation,
 } from "../data-actions/data-actions";
 import {BackendRoutes} from "../../const/const";
 import {
@@ -23,9 +23,9 @@ export const fetchMoviesList = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(BackendRoutes.LOGIN)
+    .then(({data}) => dispatch(loadUserInformation(data)))
     .then(() => dispatch(changeAuthorizationStatus(true)))
-    .catch(() => {
-    })
+    .catch(() => {})
 );
 
 export const logout = () => (dispatch, _getState, api) => (

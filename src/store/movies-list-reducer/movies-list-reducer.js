@@ -2,7 +2,7 @@ import {MovieActionType} from "../movie-actions/movie-actions";
 import {DataActionType} from "../data-actions/data-actions";
 import {FlagActionType} from "../flag-actions/flag-actions";
 import {LoadMoreCounters} from "../../const/const";
-import {adaptToClient} from "../../adapt-to-client/adapt-to-client";
+import {adaptMovieToClient} from "../../adapt-to-client/adapt-to-client";
 
 const initialState = {
   genre: `All films`,
@@ -50,8 +50,8 @@ const moviesListReducer = (state = initialState, action) => {
     case DataActionType.LOAD_MOVIES:
       return {
         ...state,
-        moviesList: action.payload.map((movie) => adaptToClient(movie)),
-        initialMoviesList: action.payload.map((movie) => adaptToClient(movie)),
+        moviesList: action.payload.map((movie) => adaptMovieToClient(movie)),
+        initialMoviesList: action.payload.map((movie) => adaptMovieToClient(movie)),
         isDataLoaded: !state.isDataLoaded,
       };
 
@@ -59,7 +59,7 @@ const moviesListReducer = (state = initialState, action) => {
       return {
         ...state,
         isPromoLoaded: true,
-        promoMovie: adaptToClient(action.payload),
+        promoMovie: adaptMovieToClient(action.payload),
       };
 
     case FlagActionType.CHANGE_FAVOURITE_MOVIES_LOAD_FLAG:
@@ -71,7 +71,7 @@ const moviesListReducer = (state = initialState, action) => {
     case DataActionType.LOAD_FAVOURITE_MOVIES:
       return {
         ...state,
-        favouriteMovies: action.payload.map((movie) => adaptToClient(movie)),
+        favouriteMovies: action.payload.map((movie) => adaptMovieToClient(movie)),
       };
 
     case FlagActionType.CHANGE_PROMO_LOAD_FLAG:

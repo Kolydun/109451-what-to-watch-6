@@ -10,3 +10,4 @@ export const getRenderedMovies = (state) => state[NameSpace.MOVIES_LIST_REDUCER]
 export const getMoviesPerStepCounter = (state) => state[NameSpace.MOVIES_LIST_REDUCER].moviesPerStepCounter;
 export const getIsDataLoaded = (state) => state[NameSpace.MOVIES_LIST_REDUCER].isDataLoaded;
 export const getIsFavouriteMoviesLoaded = (state) => state[NameSpace.MOVIES_LIST_REDUCER].isFavouriteMoviesLoaded;
+

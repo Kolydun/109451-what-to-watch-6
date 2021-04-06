@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 import PropTypes from "prop-types";
@@ -7,20 +7,27 @@ import {login} from "../../store/api-actions/api-actions";
 import Footer from "../footer/footer";
 import {Routes} from "../../const/const";
 
-const SignIn = ({onSubmit}) => {
+const SignIn = (props) => {
 
+  const {onSubmit} = props;
+  const emailValidation = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+
+  const [emailError, setEmailError] = useState(false);
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    onSubmit({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
-    history.push(Routes.HOME_PAGE);
+    if (emailValidation.test(emailRef.current.value)) {
+      onSubmit({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      });
+      history.push(Routes.HOME_PAGE);
+    } else {
+      setEmailError(true);
+    }
   };
 
   return (
@@ -77,6 +84,13 @@ const SignIn = ({onSubmit}) => {
             className="sign-in__form"
             onSubmit={handleSubmit}
           >
+            { emailError === true
+              ? <div className="sign-in__message">
+                <p>Please enter a valid email address</p>
+              </div>
+              : ``
+            }
+
             <div className="sign-in__fields">
               <div className="sign-in__field">
                 <input
@@ -86,6 +100,8 @@ const SignIn = ({onSubmit}) => {
                   name="user-email"
                   id="user-email"
                   ref={emailRef}
+                  // pattern='^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                  required
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
@@ -113,7 +129,7 @@ const SignIn = ({onSubmit}) => {
           </form>
         </div>
 
-        {<Footer/>}
+        <Footer/>
       </div>
     </React.Fragment>
   );
@@ -129,5 +145,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export {SignIn};
 export default connect(null, mapDispatchToProps)(SignIn);

@@ -5,6 +5,7 @@ export const DataActionType = {
   LOAD_MOVIE_COMMENTS: `data/load-movie-comments`,
   LOAD_DATA_FOR_REVIEW_PAGE: `data/load-data-for-review`,
   LOAD_FAVOURITE_MOVIES: `data/load-favourite-movies`,
+  LOAD_USER_INFORMATION: `data/load-user-information`,
 };
 
 export const loadMovies = (movies) => ({
@@ -36,3 +37,9 @@ export const loadFavouriteMovies = (data) => ({
   type: DataActionType.LOAD_FAVOURITE_MOVIES,
   payload: data,
 });
+
+export const loadUserInformation = (data) => ({
+  type: DataActionType.LOAD_USER_INFORMATION,
+  payload: data,
+});
+

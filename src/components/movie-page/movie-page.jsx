@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory, Link, useParams} from 'react-router-dom';
 import Tabs from "../tabs/tabs";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ import {nanoid} from "nanoid";
 import {connect} from 'react-redux';
 import {changeMovieInListStatus, fetchMovieDetails, fetchMoviesList} from "../../store/api-actions/api-actions";
 import Spinner from "../spinner/spinner";
-import UserBlock from "../authorized-header/authorized-user-block";
+import UserBlock from "../authorized-user-block/authorized-user-block";
 import Footer from "../footer/footer";
 import {MyListStatus, Routes} from "../../const/const";
 import {getIsMovieDetailsLoaded, getMovieDetails} from "../../store/movie-page-reducer/selectors";
@@ -21,9 +21,19 @@ const MoviePage = (props) => {
   const history = useHistory();
   const moreLikeThisMovies = moviesList.filter((film) => film.id !== movieDetails.id && film.genre === movieDetails.genre);
 
+  const [movieInList, setMovieInList] = useState(movieDetails.isFavorite);
+
   useEffect(() => {
     if (isMovieDetailsLoaded === false) {
       onMovieDetailsLoad(id);
+    }
+  }, [isMovieDetailsLoaded]);
+
+  useEffect(() => {
+    if (movieDetails.isFavorite === true) {
+      setMovieInList(true);
+    } else if (movieDetails.isFavorite === false) {
+      setMovieInList(false);
     }
   }, [isMovieDetailsLoaded]);
 
@@ -126,16 +136,25 @@ const MoviePage = (props) => {
                     type="button"
                     onClick={() => {
                       if (authorizationStatus === true && movieDetails.isFavorite === true) {
+                        setMovieInList(false);
+                        onMovieDetailsLoad(id);
                         onMyListChange({id: movieDetails.id, status: MyListStatus.REMOVE});
                       } else if (authorizationStatus === true && movieDetails.isFavorite === false) {
+                        setMovieInList(true);
+                        onMovieDetailsLoad(id);
                         onMyListChange({id: movieDetails.id, status: MyListStatus.ADD});
                       } else {
                         history.push(Routes.LOGIN);
                       }
                     }}>
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
+                    {movieInList === true
+                      ? <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg>
+                      : <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>
+                    }
                     <span>My list</span>
                   </button>
 
@@ -178,7 +197,7 @@ const MoviePage = (props) => {
             </div>
           </section>
 
-          {<Footer/>}
+          <Footer/>
         </div>
       </React.Fragment>
   );

@@ -66,7 +66,7 @@ const MainPage = (props) => {
 
         </section>
 
-        {<Footer/>}
+        <Footer/>
       </div>
     </React.Fragment>
   );

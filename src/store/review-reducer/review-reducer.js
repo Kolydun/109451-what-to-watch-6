@@ -1,6 +1,6 @@
 import {DataActionType} from "../data-actions/data-actions";
 import {FlagActionType} from "../flag-actions/flag-actions";
-import {adaptToClient} from "../../adapt-to-client/adapt-to-client";
+import {adaptMovieToClient} from "../../adapt-to-client/adapt-to-client";
 
 const initialState = {
   dataForReviewPage: {},
@@ -17,7 +17,7 @@ const addReviewPageReducer = (state = initialState, action) => {
       return {
         ...state,
         isDataForReviewPageLoaded: true,
-        dataForReviewPage: adaptToClient(action.payload),
+        dataForReviewPage: adaptMovieToClient(action.payload),
       };
 
     case FlagActionType.CHANGE_REVIEW_FORM_BLOCK_FLAG:

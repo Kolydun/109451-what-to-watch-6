@@ -5,10 +5,11 @@ import {connect} from "react-redux";
 import {useHistory} from 'react-router-dom';
 import {Routes} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";
+import {getUserInformation} from "../../store/user-reducer/selectors";
 
 const AuthorizedUserBlock = (props) => {
 
-  const {onPageChange, onLogOut} = props;
+  const {onPageChange, onLogOut, userInformation} = props;
   const history = useHistory();
 
 
@@ -17,7 +18,7 @@ const AuthorizedUserBlock = (props) => {
       <div className="user-block">
         <div className="user-block__avatar">
           <img
-            src="img/avatar.jpg"
+            src={userInformation.avatarUrl}
             alt="User avatar"
             width="63"
             height="63"
@@ -42,6 +43,21 @@ const AuthorizedUserBlock = (props) => {
   );
 };
 
+AuthorizedUserBlock.propTypes = {
+  onPageChange: PropTypes.func.isRequired,
+  onLogOut: PropTypes.func.isRequired,
+  userInformation: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    name: PropTypes.string,
+    avatarUrl: PropTypes.string,
+  }),
+};
+
+const mapStateToProps = (state) => ({
+  userInformation: getUserInformation(state),
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onPageChange() {
     dispatch(resetFilters());
@@ -51,9 +67,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-AuthorizedUserBlock.propTypes = {
-  onPageChange: PropTypes.func.isRequired,
-  onLogOut: PropTypes.func.isRequired,
-};
-
-export default connect(null, mapDispatchToProps)(AuthorizedUserBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorizedUserBlock);

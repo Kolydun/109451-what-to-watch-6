@@ -5,6 +5,7 @@ import {useHistory, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Routes} from "../../const/const";
 import {changeReviewDataLoadFlag, resetLoadMovieDetailsFlag} from "../../store/flag-actions/flag-actions";
+import {resetFilters} from "../../store/movie-actions/movie-actions";
 
 
 const MovieCard = (props) => {
@@ -85,6 +86,7 @@ const mapDispatchToProps = (dispatch) => ({
   onMovieCardClick() {
     dispatch(resetLoadMovieDetailsFlag());
     dispatch(changeReviewDataLoadFlag(false));
+    dispatch(resetFilters());
   },
 });
 

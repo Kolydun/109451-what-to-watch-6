@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import MoviesList from "../movies-list/movies-list";
 import {connect} from 'react-redux';
 import Footer from "../footer/footer";
-import UserBlock from "../authorized-header/authorized-user-block";
+import UserBlock from "../authorized-user-block/authorized-user-block";
 import Spinner from "../spinner/spinner";
 import {fetchFavouriteMovies} from "../../store/api-actions/api-actions";
 import {Routes} from "../../const/const";
@@ -80,7 +80,7 @@ const MyList = (props) => {
           </div>
         </section>
 
-        {<Footer/>}
+        <Footer/>
       </div>
     </React.Fragment>
   );

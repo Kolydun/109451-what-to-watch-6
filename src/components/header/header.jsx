@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
@@ -7,8 +7,8 @@ import {Routes, MyListStatus} from "../../const/const";
 import {resetFilters} from "../../store/movie-actions/movie-actions";
 import {getPromoMovie} from "../../store/movies-list-reducer/selectors";
 import {getAuthStatus} from "../../store/user-reducer/selectors";
-import AuthorizedUserBlock from "../authorized-header/authorized-user-block";
-import UnauthorizedUserBlock from "../unathorized-header/unathorized-user-block";
+import AuthorizedUserBlock from "../authorized-user-block/authorized-user-block";
+import UnauthorizedUserBlock from "../unathorized-user-block/unathorized-user-block";
 import {changePromoLoadFlag} from "../../store/flag-actions/flag-actions";
 
 const Header = (props) => {
@@ -16,6 +16,15 @@ const Header = (props) => {
   const {onPageChange, promoMovie, onMyListChange, authorizationStatus} = props;
 
   const history = useHistory();
+  const [movieInList, setMovieInList] = useState(promoMovie.isFavorite);
+
+  useEffect(() => {
+    if (promoMovie.isFavorite === true) {
+      setMovieInList(true);
+    } else if (promoMovie.isFavorite === false) {
+      setMovieInList(false);
+    }
+  }, [onMyListChange]);
 
   return (
     <React.Fragment>
@@ -73,16 +82,23 @@ const Header = (props) => {
                   type="button"
                   onClick={() => {
                     if (authorizationStatus === true && promoMovie.isFavorite === true) {
+                      setMovieInList(false);
                       onMyListChange({id: promoMovie.id, status: MyListStatus.REMOVE});
                     } else if (authorizationStatus === true && promoMovie.isFavorite === false) {
+                      setMovieInList(true);
                       onMyListChange({id: promoMovie.id, status: MyListStatus.ADD});
                     } else {
                       history.push(Routes.LOGIN);
                     }
                   }}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                  {movieInList === true
+                    ? <svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
+                    </svg>
+                    : <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                  }
                   <span>My list</span>
                 </button>
               </div>

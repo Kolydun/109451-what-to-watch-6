@@ -8,6 +8,7 @@ export const FlagActionType = {
   CHANGE_FAVOURITE_MOVIES_LOAD_FLAG: `flag/change-favourite-movies-load-flag`,
   CHANGE_MOVIE_DETAILS_LOAD_FLAG: `flag/change-movie-details-flag`,
   CHANGE_PROMO_LOAD_FLAG: `flag/change-promo-load-flag`,
+  CHANGE_LOGIN_ERROR_FLAG: `flag/change-error-flag`,
 };
 
 export const resetLoadMovieDetailsFlag = () => ({
@@ -53,3 +54,9 @@ export const changePromoLoadFlag = (flag) => ({
   type: FlagActionType.CHANGE_PROMO_LOAD_FLAG,
   payload: flag,
 });
+
+export const changeLoginErrorFlag = (flag) => ({
+  type: FlagActionType.CHANGE_LOGIN_ERROR_FLAG,
+  payload: flag,
+});
+

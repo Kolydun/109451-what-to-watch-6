@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {fetchDataForReview, postReview} from "../../store/api-actions/api-actions";
 import Spinner from "../spinner/spinner";
 import {useHistory} from 'react-router-dom';
-import UserBlock from "../authorized-header/authorized-user-block";
+import UserBlock from "../authorized-user-block/authorized-user-block";
 import {Routes} from "../../const/const";
 import {
   changeReviewBlockFlag,
@@ -16,7 +16,7 @@ import {
   getDataForReviewPage,
   getIsDataForReviewPageLoaded, getIsReviewBlocked,
   getIsReviewSendCorrectly, getIsReviewSendError,
-} from "../../store/add-review-reducer/selectors";
+} from "../../store/review-reducer/selectors";
 
 const AddReview = (props) => {
 
@@ -30,13 +30,9 @@ const AddReview = (props) => {
     onReviewSend,
     isReviewBlocked,
   } = props;
-  const errorMessageStyle = {
-    color: `red`,
-    margin: `10px auto 10px auto`,
-    width: `350px`,
-    height: `50px`,
-  };
+
   const MIN_COMMENT_LENGTH = 50;
+  const MAX_COMMENT_LENGTH = 400;
   const INITIAL_RATING = 1;
 
   const {id} = useParams();
@@ -201,20 +197,25 @@ const AddReview = (props) => {
                   onChange={(evt) => {
                     setUserReview(evt.target.value);
                   }}></textarea>
-                {reviewValue.length >= MIN_COMMENT_LENGTH || isReviewBlocked === true
-                  ? <div className="add-review__submit">
-                    <button className="add-review__btn" type="submit">Post</button>
-                  </div>
-                  : <div className="add-review__submit">
-                    <button className="add-review__btn" type="submit" disabled>Post</button>
-                  </div>
-                }
+                <div className="add-review__submit">
+                  <button
+                    className="add-review__btn"
+                    type="submit"
+                    disabled={reviewValue.length < MIN_COMMENT_LENGTH || isReviewBlocked || MAX_COMMENT_LENGTH < reviewValue.length}
+                  >Post
+                  </button>
+                </div>
 
               </div>
             </form>
             {isReviewSendError === true
-              ?
-              <p className="add-review__error-text" style={errorMessageStyle}>An error has occurred, please try again</p>
+              ? <p className="add-review__error-text" style={{
+                color: `red`,
+                margin: `10px auto 10px auto`,
+                width: `350px`,
+                height: `50px`,
+              }
+              }>An error has occurred, please try again</p>
               : ``
             }
           </div>

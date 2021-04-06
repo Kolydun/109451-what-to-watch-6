@@ -1,6 +1,6 @@
 import {DataActionType} from "../data-actions/data-actions";
 import {FlagActionType} from "../flag-actions/flag-actions";
-import {adaptToClient} from "../../adapt-to-client/adapt-to-client";
+import {adaptMovieToClient} from "../../adapt-to-client/adapt-to-client";
 
 const initialState = {
   movieDetails: {},
@@ -14,7 +14,7 @@ const moviePageReducer = (state = initialState, action) => {
     case DataActionType.LOAD_MOVIE_DETAILS:
       return {
         ...state,
-        movieDetails: adaptToClient(action.payload),
+        movieDetails: adaptMovieToClient(action.payload),
       };
 
     case FlagActionType.CHANGE_MOVIE_DETAILS_LOAD_FLAG:

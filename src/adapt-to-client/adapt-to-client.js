@@ -1,4 +1,4 @@
-export const adaptToClient = (movie) => {
+export const adaptMovieToClient = (movie) => {
   const adaptedMovie = {
     id: movie.id,
     name: movie.name,
@@ -20,4 +20,15 @@ export const adaptToClient = (movie) => {
   };
 
   return adaptedMovie;
+};
+
+export const adaptUserInformationToClient = (user) => {
+  const adaptedUserInformation = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatarUrl: user.avatar_url,
+  };
+
+  return adaptedUserInformation;
 };

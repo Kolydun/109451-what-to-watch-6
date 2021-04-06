@@ -6,6 +6,7 @@ import {fetchComments} from "../../store/api-actions/api-actions";
 import {connect} from "react-redux";
 import {useParams} from "react-router-dom";
 import Spinner from "../spinner/spinner";
+import {commentsColCount} from "../../const/const";
 import {getIsMovieCommentsLoaded, getMovieComments} from "../../store/movie-page-reducer/selectors";
 
 const Reviews = (props) => {
@@ -26,7 +27,15 @@ const Reviews = (props) => {
       : <React.Fragment>
         <div className="movie-card__reviews movie-card__row">
           <div className="movie-card__reviews-col">
-            {movieComments.map((comment) =>
+            {movieComments.slice(0, commentsColCount.COMMENTS_IN_COL).map((comment) =>
+              <Review
+                key={nanoid()}
+                userReview={comment}
+              />)}
+          </div>
+
+          <div className="movie-card__reviews-col">
+            {movieComments.slice(commentsColCount.COMMENTS_IN_COL + 1, commentsColCount.COMMENTS_IN_COL * 2).map((comment) =>
               <Review
                 key={nanoid()}
                 userReview={comment}

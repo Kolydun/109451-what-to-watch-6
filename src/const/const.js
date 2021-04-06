@@ -65,3 +65,12 @@ export const RatingsNames = {
   AWESOME: `Awesome`,
   NO_RATING: `N/A`,
 };
+
+export const HttpCode = {
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+};
+
+export const commentsColCount = {
+  COMMENTS_IN_COL: 3,
+};
